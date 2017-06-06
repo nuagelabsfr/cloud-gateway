@@ -1,0 +1,4 @@
+ITEM("cipher", encryption_cipher, 'c', "Cipher", false, "Cipher (required for Encryption filter)")
+ITEM("digest", encryption_digest, 'd', "Digest", false, "Digest used to derive an encryption key (required for Encryption filter)")
+ITEM("key-iteration-count", encryption_key_iteration_count, 'k', "KeyIterationCount", false, "Count of iterations used to derive an encryption key (required for Encryption filter)")
+ITEM("password", encryption_password, 'p', "Password", false, "Password used to derive an encryption key (required for Encryption filter)")

@@ -1,0 +1,8 @@
+# Default settings for cloudgateway. This file is sourced by /bin/sh from
+# /etc/init.d/cloudgateway.
+
+# User running Cloud Gateway
+CLOUDGW_USER=cloudgw
+
+# List of volumes (filesystems) to mount / unmount on start / stop
+CLOUDGW_MOUNTS=()

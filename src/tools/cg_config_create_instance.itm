@@ -1,0 +1,9 @@
+ITEM("name", name, 'n', "", true, "Instance name")
+ITEM("provider", provider, 'P', "Provider", true, "Provider type (Amazon, Openstack)")
+
+#include "cg_config_create_amazon_instance.itm"
+
+#include "cg_config_create_openstack_instance.itm"
+
+ITEM("file", file, 'f', "", true, "Configuration file")
+ITEM("allow-insecure", allow_insecure, 'k', "AllowInsecureHTTPS", false, "Allow insecure (invalid certificate) communication")

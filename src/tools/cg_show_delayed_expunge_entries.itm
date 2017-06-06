@@ -1,0 +1,5 @@
+ITEM("fs-id", fs_name, 'i', true, "Filesystem ID")
+ITEM("file", file, 'f', true, "Configuration file")
+ITEM("full-path", full_path, 'p', false, "Full path of the deleted entry")
+ITEM("deleted-after", deleted_after, 'd', false, "The timestamp after which the deletion occured")
+ITEM("json-export", json_export, 'j', false, "Output file, in JSON notation, instead of printing to the console")

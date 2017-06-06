@@ -1,0 +1,6 @@
+ITEM("access-key-id", access_key_id, 'a', "AccessKeyId", false, "Access Key ID (required for type Amazon)")
+ITEM("secret-access-key", secret_access_key, 's', "SecretAccessKey", false, "Secret Access Key (required for type Amazon)")
+ITEM("endpoint", endpoint, 'e', "Endpoint", false, "Endpoint (required for type Amazon)")
+ITEM("endpoint-port", endpoint_port, 'g', "EndpointPort", false, "Endpoint port (required for type Amazon)")
+ITEM("bucket", bucket, 'b', "Bucket", false, "Bucket (required for type Amazon)")
+ITEM("secure-transaction", secure_transaction, 'S', "SecureTransaction", false, "Whether to use HTTPs (required for Amazon)")

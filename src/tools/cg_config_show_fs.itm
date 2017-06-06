@@ -1,0 +1,2 @@
+ITEM("id", fs_id, 'i', "", true, "Filesystem ID")
+ITEM("file", file, 'f', "", true, "Configuration file")

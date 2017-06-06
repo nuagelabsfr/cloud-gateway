@@ -1,0 +1,17 @@
+/* Digests */
+
+/* MD5 */
+DIGEST("md5", md5)
+
+/* RIPE MD 160 */
+DIGEST("ripemd160", ripemd160)
+
+/* SHA */
+DIGEST("sha1", sha1)
+DIGEST("sha224", sha224)
+DIGEST("sha256", sha256)
+DIGEST("sha384", sha384)
+DIGEST("sha512", sha512)
+
+/* Whirlpool */
+DIGEST("whirlpool", whirlpool)

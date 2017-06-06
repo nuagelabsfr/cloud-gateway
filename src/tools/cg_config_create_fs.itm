@@ -1,0 +1,16 @@
+ITEM("id", id, 'i', "Id", true, "Filesystem ID")
+ITEM("type", type, 't', "Type", true, "Filesystem type, eg Single, Mirroring or Striping")
+ITEM("cache-root", cache_root, 'c', "CacheRoot", true, "Filesystem cache root directory")
+ITEM("full-threshold", full_threshold, 'u', "FullThreshold", true, "Full Threshold, in percent")
+
+ITEM("mount-point", mount_point, 'm', "MountPoint", true, "Mount Point")
+
+ITEM("io-block-size", io_block_size, 'o', "IOBlockSize", false, "Preferred I/O block size, in bytes")
+ITEM("clean-min-file-size", clean_min_file_size, 's', "CleanMinFileSize", false, "The minimum file size in bytes for an object to be considered by the cache cleaning process")
+ITEM("clean-max-access-offset", clean_max_access_offset, 'a', "CleanMaxAccessOffset", false, "Only files that have been not been accessed for at least this value (in seconds) might be cleaned")
+
+ITEM("delay-expunge-after", delayed_expunge, 'd', "DelayedExpunge", false, "The delay in seconds before truly expunging deleted file from the Cloud Storage provider")
+ITEM("auto-expunge", auto_expunge, 'x', "AutoExpunge", false, "Expunge an entry from the cache as soon as it has been synced to all the mirrored storage providers")
+ITEM("inode-digest-algorithm", inode_digest_algorithm, 'h', "InodeDigestAlgorithm", false, "The filesystem inode digest algorithm")
+
+ITEM("file", file, 'f', "", true, "Configuration file")

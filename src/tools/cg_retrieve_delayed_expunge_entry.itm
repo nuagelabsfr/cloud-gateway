@@ -1,0 +1,4 @@
+ITEM("fs-id", fs_name, 'i', true, "Filesystem ID")
+ITEM("file", file, 'f', true, "Configuration file")
+ITEM("inode-number", inode_number_str, 'n', true, "Inode Number")
+ITEM("output-file", output_file, 'o', true, "Output File")

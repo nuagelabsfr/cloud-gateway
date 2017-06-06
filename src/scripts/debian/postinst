@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# See https://wiki.debian.org/MaintainerScripts
+
+readonly action=$1
+readonly oldversion=$2
+
+readonly cloudgw_user="cloudgw"
+readonly cloudgw_root="/opt/CloudGateway"
+
+substitute()
+{
+    local readonly from=$1
+    local readonly to=$2
+    local readonly file=$3
+
+    /bin/sed -i "s,${from},${to},g" "${file}"
+}
+
+add_cloudgw_user()
+{
+    if ! getent passwd "${cloudgw_user}" >/dev/null; then
+        useradd -s /bin/bash -m -G fuse "${cloudgw_user}"
+        result=$?
+
+        if [ ${result} -eq 0 ]; then
+            echo "# Cloud Gateway Path" >> "/home/${cloudgw_user}/.bashrc"
+            echo "PATH=\"\${PATH}:${cloudgw_root}/bin/\"" >> "/home/${cloudgw_user}/.bashrc"
+            echo "export PATH" >> "/home/${cloudgw_user}/.bashrc"
+        fi
+
+        chown -R "${cloudgw_user}" "${cloudgw_root}"
+    fi
+}
+
+fix_fuse()
+{
+    modprobe fuse
+    chgrp fuse /dev/fuse
+    chmod g+rw /dev/fuse
+    substitute '#user_allow_other' 'user_allow_other' /etc/fuse.conf
+}
+
+fix_rights()
+{
+    chown -R "${cloudgw_user}" "${cloudgw_root}/bin"
+    chown -R "${cloudgw_user}" "${cloudgw_root}/conf"
+    chown -R "${cloudgw_user}" "${cloudgw_root}/lib"
+    chown -R "${cloudgw_user}" "${cloudgw_root}/resources"
+    chown -R "${cloudgw_user}" "${cloudgw_root}/run"
+}
+
+handle_templates()
+{
+    if [ ! -f "${cloudgw_root}/conf/CloudGatewayConfiguration.xml" ]; then
+        substitute '__INSTALL_PATH__' "${cloudgw_root}" "${cloudgw_root}/conf/CloudGatewayConfiguration.xml.tmpl"
+        mv "${cloudgw_root}/conf/CloudGatewayConfiguration.xml.tmpl" "${cloudgw_root}/conf/CloudGatewayConfiguration.xml"
+    fi
+
+    if [ ! -f "${cloudgw_root}/bin/CloudGateway_env.sh" ]; then
+        substitute '__INSTALL_PATH__' "${cloudgw_root}" "${cloudgw_root}/bin/CloudGateway_env.sh.tmpl"
+        mv "${cloudgw_root}/bin/CloudGateway_env.sh.tmpl" "${cloudgw_root}/bin/CloudGateway_env.sh"
+    fi
+}
+
+create_cache()
+{
+    if [ ! -d "${cloudgw_root}/cache" ]; then
+        mkdir -p "${cloudgw_root}/cache"
+        chown -R "${cloudgw_user}" "${cloudgw_root}/cache"
+    fi
+}
+
+create_run()
+{
+    mkdir -p "${cloudgw_root}/run"
+    chown -R "${cloudgw_user}" "${cloudgw_root}/run"
+}
+
+create_db()
+{
+    if [ -z "${oldversion}" ]; then
+        /bin/bash "${cloudgw_root}/bin/create_db_user_as_root.sh"
+    fi
+}
+
+case "${action}" in
+    configure)
+        add_cloudgw_user
+        fix_fuse
+        create_cache
+        create_run
+        handle_templates
+        fix_rights
+        create_db
+        ;;
+    abort-upgrade|abort-deconfigure|abort-remove)
+        :
+        ;;
+    *)
+        echo "Called with unknown argument $1, bailing out."
+        exit 1
+        ;;
+esac

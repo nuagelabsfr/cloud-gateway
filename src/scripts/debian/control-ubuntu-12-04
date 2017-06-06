@@ -1,0 +1,15 @@
+Source: cloudgateway
+Section: unknown
+Priority: extra
+Maintainer: Nuage Labs Debian Mainteners <debian-mainteners@nuagelabs.fr>
+Homepage: https://www.nuagelabs.fr
+Package: cloudgateway
+Version: 1.2.0~rc1
+Architecture: amd64
+Depends: postgresql (>= 9.1), postgresql-client (>= 9.1), ca-certificates, fuse-utils
+Description: Cloud Gateway turns any Cloud storage into a local volume.
+ Our software gateway connects any Cloud storage service including Amazon S3
+ and Openstack compatible providers. No API integration is required, data is
+ stored on the Cloud, encrypted during transfers and can be replicated between
+ multiple Clouds. Your Cloud storage area works as a local filesystem that you
+ can export as a NAS through NFS, CIFS...

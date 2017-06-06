@@ -1,0 +1,4 @@
+STRING_PARAMETER(cipher_name, "./Cipher", true)
+STRING_PARAMETER(digest_name, "./Digest", true)
+STRING_PARAMETER(password, "./Password", true)
+UNSIGNED_INTEGER_PARAMETER(key_iteration_count, "./KeyIterationCount", true)

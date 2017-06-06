@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+
+  <General>
+    <ProvidersPath>@CMAKE_INSTALL_PREFIX@/lib/</ProvidersPath>
+    <FiltersPath>@CMAKE_INSTALL_PREFIX@/lib/</FiltersPath>
+    <DBBackendsPath>@CMAKE_INSTALL_PREFIX@/lib/</DBBackendsPath>
+    <ResourcesPath>@CMAKE_INSTALL_PREFIX@/share/cloudgateway/resources/</ResourcesPath>
+    <CommunicationSocket>@CMAKE_INSTALL_PREFIX@/run/cloudgateway/CloudGatewayStorageManager.sock</CommunicationSocket>
+    <PidFile>@CMAKE_INSTALL_PREFIX@/run/cloudgateway/CloudGatewayStorageManager.pid</PidFile>
+    <LogFile>/tmp/CloudGatewayStorageManager.err</LogFile>
+    <MonitorInformationsPath>/cgStorageManagerMonitor.shared</MonitorInformationsPath>
+    <Daemonize>true</Daemonize>
+    <StatsJSONFile>/tmp/cgStatsFile.json</StatsJSONFile>
+  </General>
+
+  <Monitor>
+    <Delay>20</Delay>
+    <FileSize>1048576</FileSize>
+    <FileId>CG_STORAGE_MANAGER_MONITOR_TEST_FILE</FileId>
+    <FileTemplatePath>/tmp/</FileTemplatePath>
+    <FileDigest>md5</FileDigest>
+  </Monitor>
+
+  <DB>
+    <Type>PG</Type>
+    <Specifics>
+      <ConnectionString>__DB_CONNECTION_STRING__</ConnectionString>
+    </Specifics>
+  </DB>
+
+  <Instances>
+<!--
+    Sample configuration for an S3-compatible Instance.
+-->
+<!--
+    <Instance>
+      <Name>S3-Instance-1</Name>
+      <Provider>Amazon</Provider>
+
+      <Specifics>
+        <AccessKeyId></AccessKeyId>
+        <SecretAccessKey></SecretAccessKey>
+        <Endpoint></Endpoint>
+        <EndpointPort>80</EndpointPort>
+        <Bucket></Bucket>
+        <SecureTransaction>true</SecureTransaction>
+      </Specifics>
+
+    </Instance>
+-->
+<!--
+    Sample configuration for an Openstack Identity v1 Instance.
+-->
+<!--
+    <Instance>
+      <Name>Openstackv1-Instance-1</Name>
+      <Provider>Openstack</Provider>
+
+      <Specifics>
+        <Username></Username>
+        <IdentityVersion>1</IdentityVersion>
+        <APIAccessKey></APIAccessKey>
+        <AuthenticationEndpoint></AuthenticationEndpoint>
+        <Container></Container>
+      </Specifics>
+
+    </Instance>
+-->
+<!--
+    Sample configuration for an Openstack Identity v2 (Keystone) Instance.
+    Note that you have to set the TenantId or the TenantName with the
+    value provided by your Storage Provider, but not both.
+-->
+<!--
+    <Instance>
+      <Name>Openstackv2-Instance-1</Name>
+      <Provider>Openstack</Provider>
+
+      <Specifics>
+        <Username></Username>
+        <Password></Password>
+        <TenantId></TenantId>
+        <TenantName></TenantName>
+        <IdentityVersion>2</IdentityVersion>
+        <AuthenticationEndpoint></AuthenticationEndpoint>
+        <Container></Container>
+      </Specifics>
+
+    </Instance>
+-->
+  </Instances>
+
+  <FileSystems>
+<!--
+    Configuration for a Single FS.
+-->
+<!--
+    <FileSystem>
+      <Id>MyFS</Id>
+      <Type>Single</Type>
+      <CacheRoot>/opt/CloudGateway/cache</CacheRoot>
+      <FullThreshold>10</FullThreshold>
+
+      <Instances>
+        <Instance>S3-Instance-1/Instance>
+      </Instances>
+
+    </FileSystem>
+-->
+<!--
+    Configuration for a Mirroring FS.
+-->
+<!--
+    <FileSystem>
+      <Id>MyFS</Id>
+      <Type>Mirroring</Type>
+      <CacheRoot>/opt/CloudGateway/cache</CacheRoot>
+      <FullThreshold>10</FullThreshold>
+
+      <Instances>
+        <Instance>S3-Instance-1/Instance>
+        <Instance>Openstackv1-Instance-1/Instance>
+        <Instance>Openstackv2-Instance-1/Instance>
+      </Instances>
+
+    </FileSystem>
+-->
+  </FileSystems>
+
+</Configuration>

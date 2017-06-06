@@ -1,0 +1,3 @@
+TYPE(cg_storage_filesystem_type_single, "Single")
+TYPE(cg_storage_filesystem_type_mirroring, "Mirroring")
+TYPE(cg_storage_filesystem_type_striping, "Striping")

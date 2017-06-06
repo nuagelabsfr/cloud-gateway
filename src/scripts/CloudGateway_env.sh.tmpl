@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This file should never be overriden
+# during upgrade, but may be re-generated.
+
+# Definitions
+readonly CG_INSTALLATION_DIR="@CMAKE_INSTALL_PREFIX@"
+
+# Variables
+if [ -f "${CG_INSTALLATION_DIR}/bin/CloudGateway_variables.sh" ]; then
+    . "${CG_INSTALLATION_DIR}/bin/CloudGateway_variables.sh"
+else
+    echo "Unable to find Cloud Gateway variables file, exiting." 1>&2
+    exit 1
+fi
+
+# Functions
+if [ -f "${CG_INSTALLATION_DIR}/bin/CloudGateway_functions.sh" ]; then
+    . "${CG_INSTALLATION_DIR}/bin/CloudGateway_functions.sh"
+else
+    echo "Unable to find Cloud Gateway functionss file, exiting." 1>&2
+    exit 1
+fi

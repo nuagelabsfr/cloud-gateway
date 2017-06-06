@@ -1,0 +1,4 @@
+STRING_PARAM(base_dir, "BaseDir", true)
+BOOLEAN_PARAM(verbose, "Verbose", false)
+UINT64_PARAM(tree_depth, "TreeDepth", false)
+BOOLEAN_PARAM(check_object_hash, "CheckObjectHash", false)

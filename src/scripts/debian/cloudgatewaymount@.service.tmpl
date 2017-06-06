@@ -1,0 +1,12 @@
+[Unit]
+Description=Cloud Gateway Mount Point
+After=network.target
+Requires=cloudgateway.service
+
+[Service]
+#Type=forking
+User=cloudgw
+ExecStart=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayMount %i @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml
+
+[Install]
+WantedBy=multi-user.target

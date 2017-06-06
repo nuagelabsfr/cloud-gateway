@@ -1,0 +1,4 @@
+ITEM("id", id, 'i', "FileSystemID", true, "Filesystem ID")
+ITEM("configuration-file", configuration_file, 'f', "", true, "Cloud Gateway configuration file")
+ITEM("mount-point", mount_point, 'm', "MountPoint", true, "Mount Point")
+ITEM("output-file", file, 'o', "", true, "Output configuration file")

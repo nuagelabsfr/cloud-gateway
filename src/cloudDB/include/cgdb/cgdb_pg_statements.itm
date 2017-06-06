@@ -1,0 +1,203 @@
+STMT(none, NULL, 0)
+
+STMT(get_entry_info_recursive, "SELECT * FROM get_entry_from_path($1, $2)", 2)
+
+STMT(get_inode_info, "SELECT inode_number, uid, gid, mode, size, atime, ctime, mtime, last_usage, last_modification, nlink, dirty_writers, in_cache, digest, digest_type "
+                     "FROM inodes AS ino "
+                     "WHERE ino.inode_number = $1 AND ino.fs_id = $2 LIMIT $3", 3)
+
+STMT(get_child_inode_info, "SELECT ino.inode_number, ino.uid, ino.gid, ino.mode, ino.size, ino.atime, ino.ctime, ino.mtime, ino.last_usage, ino.last_modification, ino.nlink, ino.dirty_writers, ino.in_cache, ino.digest, ino.digest_type "
+                           "FROM entries AS ent "
+                           "INNER JOIN inodes AS ino ON (ent.inode_number = ino.inode_number AND ent.fs_id = ino.fs_id) "
+                           "INNER JOIN entries AS parent_entry ON (ent.parent_entry_id = parent_entry.entry_id AND ent.fs_id = parent_entry.fs_id) "
+                           "INNER JOIN inodes AS parent_ino ON (parent_entry.inode_number = parent_ino.inode_number AND parent_entry.fs_id = parent_ino.fs_id) "
+                           "WHERE parent_ino.fs_id = $1 AND parent_ino.inode_number = $2 AND ent.name = $3 LIMIT $4", 4)
+
+STMT(get_valid_inode_instances, "SELECT instance_id, iil.inode_number, iil.fs_id, uploading, deleting, status, id_in_instance, upload_time "
+                                "FROM inodes_instances AS ii "
+                                "INNER JOIN inodes_instances_link AS iil ON (iil.inode_instance_id = ii.inode_instance_id) "
+                                "WHERE iil.fs_id = $1 AND iil.inode_number = $2 AND ii.status != $3", 3)
+
+STMT(get_inode_instances, "SELECT instance_id, iil.inode_number, iil.fs_id, uploading, deleting, status, id_in_instance, upload_time "
+                          "FROM inodes_instances AS ii "
+                          "INNER JOIN inodes_instances_link AS iil ON (iil.inode_instance_id = ii.inode_instance_id) "
+                          "WHERE iil.fs_id = $1 AND iil.inode_number = $2 ORDER BY status, uploading, deleting, upload_time, id_in_instance", 2)
+
+STMT(get_inode_entries, "SELECT ent.parent_entry_id, ent.entry_id AS entry_id, ent.fs_id AS fs_id, ent.type AS type, ent.name AS name, ent.link_to AS link_to, ino.inode_number AS inode_number, ino.uid AS uid, ino.gid AS gid, ino.mode AS mode, ino.size AS size, ino.atime AS atime, ino.ctime AS ctime, ino.mtime AS mtime, ino.last_usage AS last_usage, ino.last_modification AS last_modification, ino.nlink AS nlink, ino.dirty_writers AS dirty_writers, ino.in_cache AS in_cache, ino.digest AS digest, ino.digest_type AS digest_type "
+                        "FROM entries AS ent "
+                        "INNER JOIN inodes AS ino ON (ino.fs_id = ent.fs_id AND ino.inode_number = ent.inode_number) "
+                        "INNER JOIN entries AS parent_ent ON (parent_ent.fs_id = ent.fs_id AND parent_ent.entry_id = ent.parent_entry_id) "
+                        "WHERE ent.fs_id = $1 AND "
+                        "parent_ent.inode_number = $2 "
+                        "UNION SELECT ent.parent_entry_id, ent.entry_id AS entry_id, ent.fs_id AS fs_id, ent.type AS type, '.' AS name, ent.link_to AS link_to, ino.inode_number AS inode_number, ino.uid AS uid, ino.gid AS gid, ino.mode AS mode, ino.size AS size, ino.atime AS atime, ino.ctime AS ctime, ino.mtime AS mtime, ino.last_usage AS last_usage, ino.last_modification AS last_modification, ino.nlink AS nlink, ino.dirty_writers AS dirty_writers, ino.in_cache AS in_cache, ino.digest AS digest, ino.digest_type AS digest_type "
+                        "FROM entries as ent "
+                        "INNER JOIN inodes AS ino ON (ino.fs_id = ent.fs_id AND ino.inode_number = ent.inode_number) "
+                        "WHERE ent.fs_id = $1 "
+                        "AND ent.inode_number = $2 "
+                        "UNION SELECT ent.parent_entry_id, ent.entry_id AS entry_id, ent.fs_id AS fs_id, ent.type AS type, '..' AS name, ent.link_to AS link_to, ino.inode_number AS inode_number, ino.uid AS uid, ino.gid AS gid, ino.mode AS mode, ino.size AS size, ino.atime AS atime, ino.ctime AS ctime, ino.mtime AS mtime, ino.last_usage AS last_usage, ino.last_modification AS last_modification, ino.nlink AS nlink, ino.dirty_writers AS dirty_writers, ino.in_cache AS in_cache, ino.digest AS digest, ino.digest_type AS digest_type "
+                        "FROM entries AS ent "
+                        "INNER JOIN inodes AS ino ON (ino.fs_id = ent.fs_id AND ino.inode_number = ent.inode_number) "
+                        "INNER JOIN entries AS child_ent ON ent.fs_id = child_ent.fs_id AND (ent.entry_id = child_ent.parent_entry_id OR (child_ent.parent_entry_id IS NULL AND ent.entry_id = child_ent.entry_id )) "
+                        "WHERE ent.fs_id = $1 "
+                        "AND child_ent.inode_number = $2", 2)
+
+STMT(get_inode_instances_count_by_status, "SELECT count(ii.instance_id) AS count "
+                                          "FROM inodes_instances AS ii "
+                                          "INNER JOIN inodes_instances_link AS iil ON (iil.inode_instance_id = ii.inode_instance_id) "
+                                          "WHERE iil.fs_id = $1 AND iil.inode_number = $2 AND ii.status = $3", 3)
+
+STMT(get_inode_instances_by_status, "SELECT ii.instance_id, iil.inode_number, iil.fs_id, uploading, deleting, status, id_in_instance, upload_time, ino.mtime AS inode_mtime, ino.last_modification AS inode_last_modification, ino.dirty_writers AS inode_dirty_writers, ino.digest_type AS inode_digest_type, ino.size AS inode_size "
+                                    "FROM inodes_instances AS ii "
+                                    "LEFT JOIN inodes_instances_link AS iil ON (iil.inode_instance_id = ii.inode_instance_id) "
+                                    "LEFT JOIN inodes AS ino ON (ino.fs_id = iil.fs_id AND ino.inode_number = iil.inode_number) "
+                                    "WHERE status = $1 AND uploading = false AND deleting = false "
+                                    "ORDER BY $2 "
+                                    "LIMIT $3 "
+                                    "OFFSET $4", 4)
+
+STMT(get_not_dirty_entries_by_type_size_last_usage, "SELECT ent.parent_entry_id, ent.entry_id AS entry_id, ent.fs_id AS fs_id, type, name, link_to, ino.inode_number AS inode_number, uid, gid, mode, size, atime, ctime, mtime, last_usage, last_modification, nlink, dirty_writers, in_cache, digest, digest_type "
+                                                "FROM entries AS ent "
+                                                "INNER JOIN inodes AS ino ON (ent.inode_number = ino.inode_number AND ent.fs_id = ino.fs_id) "
+                                                "WHERE ent.fs_id = $1 AND ent.type = $2 AND size >= $3 AND last_usage <= $4 AND in_cache = $5 "
+                                                "AND NOT EXISTS (SELECT ii.instance_id FROM inodes_instances AS ii "
+                                                "INNER JOIN inodes_instances_link AS iil ON (iil.inode_instance_id = ii.inode_instance_id) "
+                                                "WHERE iil.fs_id = ent.fs_id AND iil.inode_number = ino.inode_number AND ii.status = $6 ) "
+                                                "ORDER BY $7 "
+                                                "LIMIT $8 "
+                                                "OFFSET $9", 9)
+
+STMT(get_delayed_expunge_entries, "SELECT full_path, delete_after, deletion_time, ino.fs_id, ino.inode_number, uid, gid, mode, size, atime, ctime, mtime, last_usage, last_modification, nlink, in_cache "
+                                  "FROM delayed_expunge_entries AS ent "
+                                  "INNER JOIN inodes AS ino ON (ent.inode_number = ino.inode_number AND ent.fs_id = ino.fs_id) "
+                                  "WHERE ent.fs_id = $1 AND ent.full_path LIKE $2 AND deletion_time > $3 "
+                                  "ORDER BY $4 ", 4)
+
+STMT(get_expired_delayed_expunge_entries, "SELECT full_path, delete_after, deletion_time, ino.fs_id, ino.inode_number, uid, gid, mode, size, atime, ctime, mtime, last_usage, last_modification, nlink, in_cache "
+                                          "FROM delayed_expunge_entries AS ent "
+                                          "INNER JOIN inodes AS ino ON (ent.inode_number = ino.inode_number AND ent.fs_id = ino.fs_id) "
+                                          "WHERE ent.fs_id = $1 AND delete_after < $2 "
+                                          "ORDER BY deletion_time, inode_number ", 2)
+
+STMT(add_delayed_expunge_entry, "INSERT INTO delayed_expunge_entries(fs_id, inode_number, full_path, delete_after, deletion_time) "
+                                "VALUES ($1, $2, $3, $4, $5)", 5)
+
+STMT(update_inode_attributes, "UPDATE inodes AS ino "
+                              "SET mode = $1, uid = $2, gid = $3, atime = $4, mtime = $5, ctime = $6, size = $7 "
+                              "WHERE ino.fs_id = $8 AND ino.inode_number = $9 ", 9)
+
+STMT(update_inode_cache_status, "UPDATE inodes AS ino "
+                                "SET in_cache = $1 "
+                                "WHERE inode_number = $2 AND fs_id = $3", 3)
+
+STMT(update_inode_cache_status_and_increase_writers , "UPDATE inodes AS ino "
+                                                      "SET in_cache = $1, dirty_writers = dirty_writers + 1 "
+                                                      "WHERE inode_number = $2 AND fs_id = $3", 3)
+
+STMT(update_inode_digest, "UPDATE inodes AS ino "
+                          "SET digest_type = $1, digest = $2 "
+                          "WHERE inode_number = $3 AND fs_id = $4 AND dirty_writers = 0 AND last_modification < $5", 5)
+
+STMT(update_inode_instance_set_uploading, "UPDATE inodes_instances AS ii "
+                                          "SET uploading = $1, upload_time = $2 "
+                                          "FROM inodes_instances_link AS iil  "
+                                          "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                          "AND fs_id = $3 AND instance_id = $4 AND inode_number = $5 "
+                                          "AND id_in_instance = $6", 6)
+
+STMT(update_inode_instance_set_uploading_done, "UPDATE inodes_instances AS ii "
+                                               "SET uploading = $1, upload_failures = 0 "
+                                               "FROM inodes_instances_link AS iil  "
+                                               "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                               "AND fs_id = $2 AND instance_id = $3 AND inode_number = $4 "
+                                               "AND id_in_instance = $5 AND uploading = $6", 6)
+
+STMT(update_inode_instance_set_uploading_failed, "UPDATE inodes_instances AS ii "
+                                                 "SET uploading = $1, upload_failures = upload_failures + 1 "
+                                                 "FROM inodes_instances_link AS iil  "
+                                                 "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                                 "AND fs_id = $2 AND instance_id = $3 AND inode_number = $4 "
+                                                 "AND id_in_instance = $5 AND uploading = $6", 6)
+
+STMT(update_inode_instance_clear_dirty_status, "UPDATE inodes_instances AS ii "
+                                               "SET status = $1, compressed = $2, encrypted = $3 "
+                                               "FROM inodes AS ino, inodes_instances_link AS iil "
+                                               "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                               "AND ino.fs_id = iil.fs_id AND ino.inode_number = iil.inode_number "
+                                               "AND iil.fs_id = $4 AND ii.instance_id = $5 "
+                                               "AND iil.inode_number = $6 "
+                                               "AND ii.id_in_instance = $7 AND ii.status = $8 "
+                                               "AND ii.upload_time > ino.last_modification AND ino.dirty_writers = $9", 9)
+
+STMT(update_inode_instance_set_delete_in_progress, "UPDATE inodes_instances AS ii "
+                                                   "SET deleting = $1 "
+                                                   "FROM inodes_instances_link AS iil "
+                                                   "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                                   "AND iil.fs_id = $2 AND ii.instance_id = $3 "
+                                                   "AND iil.inode_number = $4 AND id_in_instance = $5", 5)
+
+STMT(update_inode_instance_set_deleting_failed, "UPDATE inodes_instances AS ii "
+                                                "SET deleting = $1 "
+                                                "FROM inodes_instances_link AS iil "
+                                                "WHERE iil.inode_instance_id = ii.inode_instance_id "
+                                                "AND iil.fs_id = $2 AND ii.instance_id = $3 "
+                                                "AND iil.inode_number = $4 AND id_in_instance = $5 "
+                                                "AND deleting = $6", 6)
+
+STMT(update_clear_inodes_instances_flags, "UPDATE inodes_instances AS ii "
+                                          "SET deleting = $1, uploading = $2 "
+                                          "WHERE ii.deleting = true OR ii.uploading = true", 2)
+
+STMT(update_clear_inodes_dirty_writers, "UPDATE inodes AS ino "
+                                        "SET dirty_writers = $1 "
+                                        "WHERE ino.dirty_writers != 0", 1)
+
+STMT(update_inode_counter_inc, "UPDATE inodes AS ino "
+                               "SET dirty_writers = dirty_writers + $1 "
+                               "WHERE ino.fs_id = $2 AND ino.inode_number = $3", 3)
+
+STMT(update_inode_counter_dec, "UPDATE inodes AS ino "
+                               "SET dirty_writers = dirty_writers + $1, digest = '', digest_type = 0 "
+                               "WHERE ino.fs_id = $2 AND ino.inode_number = $3 AND ino.dirty_writers > 0", 3)
+
+STMT(remove_delayed_expunge_entry, "SELECT remove_delayed_expunge_entry($1, $2)", 2)
+
+STMT(remove_inode_instance, "SELECT remove_inode_instance_and_link($1, $2, $3, $4, $5)", 5)
+
+STMT(get_filesystem_id, "SELECT get_filesystem_id($1) AS fs_id", 1)
+
+STMT(get_instance_id, "SELECT get_instance_id($1) AS instance_id", 1)
+
+STMT(decrement_inode_usage, "SELECT decrement_inode_usage($1, $2, $3)", 3)
+
+STMT(add_inode_instance, "SELECT add_inode_instance_and_link($1, $2, $3, $4, $5, $6, $7, $8)", 8)
+
+STMT(get_version, "SELECT version()", 0)
+
+STMT(get_or_create_root_inode, "SELECT * FROM get_or_create_root_inode($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", 15)
+
+STMT(add_low_inode_and_entry, "SELECT * FROM add_low_inode_and_entry($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)", 19)
+
+STMT(update_set_inode_and_all_inodes_instances_dirty, "SELECT set_inode_and_all_inodes_instances_dirty($1, $2, $3, $4, $5, $6, $7)", 7)
+
+STMT(get_inode_info_updating_times_and_writers, "SELECT * FROM get_inode_info_updating_times_and_writers($1, $2, $3, $4, $5, $6)", 6)
+
+STMT(release_low_inode, "SELECT release_low_inode($1, $2, $3, $4, $5, $6, $7, $8)", 8)
+
+STMT(remove_dir_entry, "SELECT * FROM remove_dir_entry($1, $2, $3, $4)", 4)
+
+STMT(remove_inode_entry, "SELECT * FROM remove_inode_entry($1, $2, $3, $4)", 4)
+
+STMT(rename_inode_entry, "SELECT * FROM rename_inode_entry($1, $2, $3, $4, $5, $6)", 6)
+
+STMT(add_hardlink, "SELECT * FROM add_hardlink($1, $2, $3, $4, $5, $6)", 6)
+
+STMT(readlink, "SELECT link_to "
+               "FROM entries AS ent "
+               "WHERE ent.fs_id = $1 "
+               "AND ent.inode_number = $2 "
+               "AND ent.type = $3 "
+               "LIMIT 1", 3)
+
+STMT(add_person, "INSERT INTO persons(id, name, age) VALUES($1, $2, $3) RETURNING id", 3)
+STMT(get_person, "SELECT id FROM persons WHERE id = $1", 1)
+STMT(remove_person, "DELETE FROM persons WHERE id = $1", 1)

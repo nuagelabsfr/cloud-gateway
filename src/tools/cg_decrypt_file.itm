@@ -1,0 +1,4 @@
+ITEM("instance-name", instance_name, 'i', "", true, "Instance name")
+ITEM("file", file, 'f', "", true, "Configuration file")
+ITEM("in", in_file, 'I', "", true, "Input (encrypted) file")
+ITEM("out", out_file, 'O', "", true, "Output (decrypted) file")

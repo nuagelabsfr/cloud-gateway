@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Parameters>
+
+  <!--
+      Format is (please keep the fields order):
+      <Parameter>
+
+        <Name></Name>
+        (<Context></Context>)?
+
+        <Required>true|false</Required>
+
+        (<Default></Default>)?
+        (<PossibleValues></PossibleValues>)?
+        (<Example></Example>)?
+
+        <Description></Description>
+
+      </Parameter>
+    -->
+
+  <Parameter>
+    <Name>Configuration</Name>
+    <Required>true</Required>
+    <Description>Root node of the configuration file.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General</Name>
+    <Required>true</Required>
+    <Description>Contains the general parameters of the Cloud Gateway
+    Storage Manager process.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/ProvidersPath</Name>
+    <Required>true</Required>
+    <Example>/usr/local/lib/</Example>
+    <Description>Path to the Storage Provider plugins directory.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/FiltersPath</Name>
+    <Required>true</Required>
+    <Example>/usr/local/lib/</Example>
+    <Description>Path to the Storage Filter plugins directory.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/DBBackendsPath</Name>
+    <Required>true</Required>
+    <Example>/usr/local/lib/</Example>
+    <Description>Path to the Database plugins directory.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/CommunicationSocket</Name>
+    <Required>true</Required>
+    <Description>Path to the Unix Socket used to communicate with the
+    various Cloud Gateway Fuse components. The Cloud Gateway Storage
+    Manager process needs creation, read and write access to this file.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/PidFile</Name>
+    <Required>true</Required>
+    <Description>Path to the file where the Cloud Gateway Storage
+    Manager process will write its Process ID. Creation and write
+    access to this file is needed to the Storage Manager process.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/LogFile</Name>
+    <Required>false</Required>
+    <Example>/tmp/CloudGatewayStorageManager.err</Example>
+    <Description>Path to the file where the Cloud Gateway Storage
+    Manager process will write its log messages when needed. Creation and write
+    access to this file is needed to the Storage Manager process.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/MonitorInformationsPath</Name>
+    <Required>true</Required>
+    <Example>/CloudGatewayStorageManagerMonitor.shared</Example>
+    <Description>Path to the POSIX shared memory object used for
+    the sharing of Storage Providers status between the Cloud Gateway Storage Manager processes.
+    This path should be a string up to NAME_MAX (i.e., 255) characters consisting of an initial slash, followed by one or more
+    characters, none of which are slashes.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/StatsJSONFile</Name>
+    <Required>false</Required>
+    <Default>/tmp/cgStats.json</Default>
+    <Example>/tmp/cgStats.json</Example>
+    <Description>Path to the JSON file that the Stats process will write statistics informations to.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/CleanerDBSlots</Name>
+    <Required>false</Required>
+    <Default>10</Default>
+    <Example>10</Example>
+    <Description>Maximum number of simultaneous database connections that the Cleaner process will be able to obtain.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/CleanerDelay</Name>
+    <Required>false</Required>
+    <Default>60</Default>
+    <Example>60</Example>
+    <Description>Time in seconds between two passes of the cleaning process.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/SyncerDBSlots</Name>
+    <Required>false</Required>
+    <Default>20</Default>
+    <Example>20</Example>
+    <Description>Maximum number of simultaneous database connections that the Syncer process will be able to obtain.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/SyncerDelay</Name>
+    <Required>false</Required>
+    <Default>5</Default>
+    <Example>5</Example>
+    <Description>Time in seconds between two passes of the syncing process.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/SyncerDirtynessDelay</Name>
+    <Required>false</Required>
+    <Default>10</Default>
+    <Example>10</Example>
+    <Description>Should match the CloudFuse Configuration/DirtynessDelay parameter.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/SyncerMaxDBObjectsPerCall</Name>
+    <Required>false</Required>
+    <Default>50</Default>
+    <Example>50</Example>
+    <Description>Maximum number of objects the Storage Manager Syncer process will request in each DB call.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/Daemonize</Name>
+    <Default>false</Default>
+    <Example>true</Example>
+    <Description>Whether the Cloud Gateway Storage Manager should act
+    as a daemon in the background, as opposed to stay in the foreground.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/HTTPConnectionsCacheSize</Name>
+    <Required>false</Required>
+    <Default>0</Default>
+    <Example>10</Example>
+    <Description>Maximum amount of simultaneously open connections that each Storage Manager process may cache.
+      A value of 0 means no limit.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/HTTPMaxConnectionsByHost</Name>
+    <Required>false</Required>
+    <Default>0</Default>
+    <Example>10</Example>
+    <Description>Maximum amount of simultaneously open connections that each Storage Manager process may open to a single host (based on the hostname).
+      A value of 0 means no limit.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/HTTPMaxConcurrentConnections</Name>
+    <Required>false</Required>
+    <Default>0</Default>
+    <Example>10</Example>
+    <Description>Maximum amount of simultaneously open connections that each Storage Manager process may have in total.
+      A value of 0 means no limit.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/HTTPCABundleFile</Name>
+    <Required>false</Required>
+    <Default>/etc/ssl/certs/ca-certificates.crt</Default>
+    <Example>/etc/ssl/certs/ca-certificates.crt</Example>
+    <Description>Path to the file holding one or more certificates to verify the HTTP SSL/TLS peers with.
+    The special value 'None' may be needed on some system to disable the use of this file.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/HTTPCABundlePath</Name>
+    <Required>false</Required>
+    <Default>/etc/ssl/certs/</Default>
+    <Example>/etc/ssl/certs/</Example>
+    <Description>Path to the directory holding one or more certificates hash to verify the HTTP SSL/TLS peers with.
+    The special value 'None' may be needed on some system to disable the use of this directory.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/General/SyncerDumpHTTPStates</Name>
+    <Required>false</Required>
+    <Default>false</Default>
+    <Example>true</Example>
+    <Description>Dump Curl HTTP states during each Syncer run.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor</Name>
+    <Required>true</Required>
+    <Description>Contains the parameters related to the monitoring of
+    Cloud Storage Instances.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor/Delay</Name>
+    <Required>false</Required>
+    <Default>20</Default>
+    <Example>20</Example>
+    <Description>Delay in seconds between two checks of the same Cloud
+    Storage Instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor/FileSize</Name>
+    <Required>false</Required>
+    <Default>1048576</Default>
+    <Example>1048576</Example>
+    <Description>The size in bytes of the file sent to and retrieved from the Cloud Storage
+    Instance in order to check that everything is working fine.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor/FileId</Name>
+    <Required>false</Required>
+    <Default>CG_STORAGE_MANAGER_MONITOR_TEST_FILE</Default>
+    <Example>CG_STORAGE_MANAGER_MONITOR_TEST_FILE</Example>
+    <Description>The identifier used at the Cloud Storage Provider for
+    the test file. This needs to be a valid file name for the Storage
+    Provider API for each monitored Instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor/FileTemplatePath</Name>
+    <Required>false</Required>
+    <Default>/tmp</Default>
+    <Example>/tmp</Example>
+    <Description>Path to the directory where the Monitor component may
+    create temporary files, with a size up to Configuration/Monitor/FileSize
+    and a number of temporary files up to the number of different
+    Storage Instances. The Cloud Gateway Storage Manager needs read
+    and write access to this directory.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Monitor/FileDigest</Name>
+    <Required>false</Required>
+    <Default>md5</Default>
+    <PossibleValues>md5, sha1, sha256, sha512</PossibleValues>
+    <Example>md5</Example>
+    <Description>Algorithm used to compute the test file's digest
+    before and after storage at the Storage Provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB</Name>
+    <Required>true</Required>
+    <Description>Contains the parameters related to the database server.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB/Type</Name>
+    <Required>true</Required>
+    <PossibleValues>PG</PossibleValues>
+    <Example>PG</Example>
+    <Description>Database type.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB/Specifics/ConnectionString</Name>
+    <Context>PostgreSQL Database server</Context>
+    <Required>true</Required>
+    <Example>host=127.0.0.1 port=5432 user=cloudgw password=PleaseChangeMe dbname=cloudgw</Example>
+    <Description>A valid PostgreSQL connection string. If Configuration/DB/Specifics/ReadOnlyConnectionString is set,
+      this connection string is used either only for write statements. Otherwise, it is used for all statements.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB/Specifics/ReadOnlyConnectionString</Name>
+    <Context>PostgreSQL Database server</Context>
+    <Required>false</Required>
+    <Example>host=127.0.0.1 port=5432 user=cloudgw password=PleaseChangeMe dbname=cloudgw</Example>
+    <Description>A valid PostgreSQL connection string, used only for read-ony (aka SELECT) statements. Write statements are done using the Configuration/DB/Specifics/ConnectionString connection string.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB/Specifics/PoolSize</Name>
+    <Context>PostgreSQL Database server</Context>
+    <Required>false</Required>
+    <Default>20</Default>
+    <Example>20</Example>
+    <Description>Number of connections in the connection pool.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/DB/Specifics/ConnectionRetry</Name>
+    <Context>PostgreSQL Database server</Context>
+    <Required>false</Required>
+    <Default>3</Default>
+    <Example>3</Example>
+    <Description>Number of connections retry attempts.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Name</Name>
+    <Required>true</Required>
+    <Example>Openstack1</Example>
+    <Description>Name of this instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Provider</Name>
+    <Required>true</Required>
+    <PossibleValues>Amazon, Openstack</PossibleValues>
+    <Example>Openstack</Example>
+    <Description>The instance's storage provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/CheckObjectHash</Name>
+    <Context>An instance using an Amazon S3 or an Openstack Swift Provider</Context>
+    <Required>false</Required>
+    <Default>true</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>true</Example>
+    <Description>Whether to check the hash returned by the provider,
+    if any, when uploading or downloading an object.
+    This option has non negligeable costs in terms of CPU processing time and
+    memory usage, but is a very effective way to protect file integrity.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/HttpTimeout</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>0-2147483647</PossibleValues>
+    <Example>3600</Example>
+    <Description>Maximum time in seconds allowed before cancelling an HTTP request. Default is 0, which means no limit, except the underlying OS timeouts for TCP connections.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/HttpSSLCiphersSuite</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>ALL!EXPORT!EXPORT40!EXPORT56!aNULL!eNULL!LOW!DES</Default>
+    <Example>ALL!EXPORT!EXPORT40!EXPORT56!aNULL!eNULL!LOW!DES!RC4</Example>
+    <Description>List of ciphers availables for TLS connections. More information can be found at the following address:
+
+      https://www.openssl.org/docs/apps/ciphers.html
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/SSLClientCertificateFile</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Example>/usr/local/conf/ClientCertificates/cert1.pem</Example>
+    <Description>The full path of a file containing a X.509 client certificate in PEM format,
+      which will be used for SSL/TLS client certificate authentication if the server requires it.
+      You will also need to configure the SSLClientCertificateKeyFile directive.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/SSLClientCertificateKeyFile</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Example>/usr/local/conf/ClientCertificates/cert1-key.pem</Example>
+    <Description>The full path of a file containing the key in PEM format corresponding to the
+      X.509 client certificate specified with the SSLClientCertificateFile directive.
+      If the key is password-protected, you will need to set the SSLClientCertificateKeyPassword
+      directive. Otherwise, the entire Storage Manager could be blocked, waiting for the key to be entered.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/SSLClientCertificateKeyPassword</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Example>ThisIsThePasswordLockingTheSSLClientCertificateKeyFile</Example>
+    <Description>If the key present in the SSLClientCertificateKeyFile file is password-protected,
+      this directive should contain the password needed to unlock the key, in plaintext.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/MaxSingleUploadSize</Name>
+    <Required>false</Required>
+    <Default>1073741824</Default>
+    <PossibleValues>10485760-5368709120</PossibleValues>
+    <Example>1073741824</Example>
+    <Description>The maximum size of a file to be uploaded in a single operation. File larger than this size will be uploaded using the multipart/segmented API of the provider when applicable.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/MaxUploadSpeed</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>0-2147483648</PossibleValues>
+    <Example>1310720</Example>
+    <Description>The maximum speed of a single upload, in bytes per second. If a transfer exceeds this value on cumulative average, it will be paused to keep the average rate below the value. 0 means unlimited.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/MaxDownloadSpeed</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>0-2147483648</PossibleValues>
+    <Example>1310720</Example>
+    <Description>The maximum speed of a single download, in bytes per second. If a transfer exceeds this value on cumulative average, it will be paused to keep the average rate below the value. 0 means unlimited.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/LowSpeedLimit</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>0-2147483648</PossibleValues>
+    <Example>1280</Example>
+    <Description>The transfer speed in bytes per second that the transfer should be below during LowSpeedTime seconds in order to be considered too slow and aborted. 0 means unlimited.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/LowSpeedTime</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>0-2147483648</PossibleValues>
+    <Example>60</Example>
+    <Description>The time in seconds that a transfer should be below the LowSpeedLimit in order to be considered too slow and aborted. 0 means unlimited.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Verbose</Name>
+    <Required>false</Required>
+    <Default>false</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>false</Example>
+    <Description>Whether to log HTTP and HTTPS transaction. This option is useful for debugging purpose,
+      but must be used with caution. It will write a lot of informations to disk, including confidential ones,
+      may cause huge disk I/Os and even fill the disk entirely.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/ShowHTTPRequests</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>false</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>false</Example>
+    <Description>Whether to log HTTP and HTTPS requests and their result. This option is useful for debugging purpose,
+      and logs more readable, less verbose informations that the Verbose option.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Disable100Continue</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>false</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>false</Example>
+    <Description>Whether to disable the use of the Expect: 100-continue header, in case the server does not support it.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/DisableTCPFastOpen</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>false</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>false</Example>
+    <Description>Whether to disable the use of TCP Fast Open, in case the server does not deal correctly with it.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/HttpUserAgent</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>CloudGateway (https://www.nuagelabs.fr)</Default>
+    <Example>CloudGateway (https://www.nuagelabs.fr)</Example>
+    <Description>The HTTP User-Agent used for all HTTP requests made for this instances.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AllowInsecureHTTPS</Name>
+    <Context>An instance using an HTTP-based storage provider, like Amazon S3 or Openstack Swift</Context>
+    <Required>false</Required>
+    <Default>false</Default>
+    <Example>false</Example>
+    <Description>Whether to allow this instance to connect to a server providing an invalid
+      X.509 certificate. This can be useful for an internal, private cloud without a valid certificate.
+      This should not be enabled if you are not really sure of what you are doing.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AccessKeyId</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <Description>The Access Key ID provided by the S3 provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/SecretAccessKey</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <Description>The Secret Access Key provided by the S3 provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Endpoint</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <PossibleValues>Any valid S3 Endpoint</PossibleValues>
+    <Example>s3-eu-west-1.amazonaws.com</Example>
+    <Description>The S3 endpoint of this specific instance
+    WITHOUT the bucket name. See for example
+
+    http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+
+    for more informations.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/EndpointPath</Name>
+    <Context>An instance using the S3 Provider</Context>
+    <Required>false</Required>
+    <Example>/s3/</Example>
+    <Description>The path part of the uniform ressource locator of the S3 endpoint of this specific instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/EndpointPort</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <Default>80</Default>
+    <Example>443</Example>
+    <PossibleValues>80, 443</PossibleValues>
+    <Description>The S3 endpoint TCP port of this specific instance.
+    Use 80 for HTTP (Set SecureTransaction to false) and 443 for HTTPS
+    (Set SecureTransaction to true).
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/SecureTransaction</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <Default>false</Default>
+    <PossibleValues>true, false</PossibleValues>
+    <Example>true</Example>
+    <Description>Whether to use Transport Layer Security (HTTPS) while
+    connecting to the S3 endpoint of this specific instance.
+    Use false for HTTP (Set EndpointPort to 80) and true for HTTPS
+    (Set EndpointPort to 443).
+    Please be aware that this option has non negligeable costs in terms of CPU processing time and memory usage.
+    If you want to protect the confidentiality of your files, we
+    strongly advise to set this option to true.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Bucket</Name>
+    <Context>An instance using the Amazon S3 Provider</Context>
+    <Required>true</Required>
+    <Example>MyBucket</Example>
+    <Description>The name of the S3 bucket to use for this instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/IdentityVersion</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Required>false</Required>
+    <Default>2</Default>
+    <PossibleValues>1, 2</PossibleValues>
+    <Example>2</Example>
+    <Description>The version of the identity method used by the provider. v1.0 is used by Rackspace,
+      v2.0, also known as Keystone, is used by most of the others providers.
+     v1.0 requires a username and an API access key, whereas v2.0 requires a username,
+      password and a tenant id or a tenant name.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AuthenticationFormat</Name>
+    <Context>An instance using the Openstack Provider, with identity version 2</Context>
+    <Required>false</Required>
+    <Default>XML</Default>
+    <PossibleValues>XML, JSON</PossibleValues>
+    <Example>XML</Example>
+    <Description>Experimental.
+      Set the format used to send the credentials to the Openstack Keystone server.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Username</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Required>true</Required>
+    <Example>myUserName</Example>
+    <Description>The user name provided by your Openstack provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Password</Name>
+    <Context>An instance using the Openstack Provider, with identity version 2.</Context>
+    <Required>false</Required>
+    <Example>myPassword</Example>
+    <Description>The password provided by your Openstack provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/TenantId</Name>
+    <Context>An instance using the Openstack Provider, with identity version 2</Context>
+    <Required>false</Required>
+    <Example>myTenantId</Example>
+    <Description>The tenant ID provided by your Openstack provider. Identity version 2 requires a
+      valid tenant ID or a valid tenant name.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/TenantName</Name>
+    <Context>An instance using the Openstack Provider, with identity version 2.</Context>
+    <Required>false</Required>
+    <Example>myTenantName</Example>
+    <Description>The tenant name provided by your Openstack provider. Identity version 2 requires a
+      valid tenant ID or a valid tenant name.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/APIAccessKey</Name>
+    <Context>An instance using the Openstack Provider, with identiy version 1</Context>
+    <Required>false</Required>
+    <Example>Xoh2choh,/aeChoo3g</Example>
+    <Description>The API Access Key provided by your Openstack provider. Required for identity 1.0.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AuthenticationEndpoint</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Example>https://lon.auth.api.rackspacecloud.com</Example>
+    <Description>The Authentication Endpoint provided by your Openstack provider.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/Container</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Example>myContainer</Example>
+    <Description>The name of the Openstack container to use for this instance.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/PreferredRegion</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Required>false</Required>
+    <Example>Region1</Example>
+    <Description>The object-store preferred region to use if the Openstack provider provides more than one.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AuthenticationMaxLifetime</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Required>false</Required>
+    <Default>21600</Default>
+    <Example>3600</Example>
+    <Description>The maximum lifetime of an authentication token, in seconds.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Specifics/AuthenticationTokenRecentDelay</Name>
+    <Context>An instance using the Openstack Provider</Context>
+    <Required>false</Required>
+    <Default>60</Default>
+    <Example>120</Example>
+    <Description>An authentication error with a token older than this delay will trigger a re-authentication.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Type</Name>
+    <Required>true</Required>
+    <PossibleValues>Encryption, Compression</PossibleValues>
+    <Example>Encryption</Example>
+    <Description>The name of the Cloud Storage Filter to apply before
+    sending files to the Cloud Storage Provider, and after retrieving
+    them. This encryption filter provides an acceptable level of confidentiality,
+    as neither the Cloud Storage Provider nor any intermediary will
+    have access to a unencrypted version of the file. The compression
+    filter is not available for S3 providers like Amazon, it will be ignored if it is
+    set.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Enabled</Name>
+    <Required>true</Required>
+    <PossibleValues>false, true</PossibleValues>
+    <Example>true</Example>
+    <Description>Whether to active the corresponding filter or
+    not. This option allows to keep all the filter configuration
+    options in the active configuration file even if the filter is
+    currently disabled.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Specifics/Cipher</Name>
+    <Context>Encryption filter</Context>
+    <Required>true</Required>
+    <PossibleValues>aes-128-cbc, aes-192-cbc, aes-256-cbc, aes-128-ctr, aes-192-ctr, aes-256-ctr, bf-cbc,
+    camellia-128-cbc, camellia-192-cbc, camellia-256-cbc</PossibleValues>
+    <Example>aes-128-ctr</Example>
+    <Description>The symmetric cipher algorithm to use. The cipher algorithm used has a
+    huge impact in terms of processing time.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Specifics/Digest</Name>
+    <Context>Encryption filter</Context>
+    <Required>true</Required>
+    <PossibleValues>md5, sha1, sha256, sha512</PossibleValues>
+    <Example>sha256</Example>
+    <Description>The message digest to use to derive an encryption key
+    (and an IV) based on the user-submitted password (see
+    Configuration/Instances/Instance/Filters/Filter/Specifics/Password),
+    the key iteration count (see Configuration/Instances/Instance/Filters/Filter/Specifics/KeyIterationCount),
+    and a randomly generated salt.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Specifics/KeyIterationCount</Name>
+    <Context>Encryption filter</Context>
+    <Required>true</Required>
+    <Example>2000</Example>
+    <Description>The count of key iterations used to derive an encryption key
+    (and IV) based on the user-submitted password (see
+    Configuration/Instances/Instance/Filters/Filter/Specifics/Password)
+    and a randomly generated salt. An higher Key Iteration Count
+    parameter increase the difficulty of performing a brute force
+    attack against the password, but equally slows down the key
+    generation process.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Specifics/Password</Name>
+    <Context>Encryption filter</Context>
+    <Required>true</Required>
+    <Example>PleasePleaseDontUseThis</Example>
+    <Description>The password from which is derived the encryption key
+    (and IV). See also
+    Configuration/Instances/Instance/Filters/Filter/Specifics/KeyIterationCount
+    and Configuration/Instances/Instance/Filters/Filter/Specifics/Digest.
+    Warning: if this password is lost, encrypted files will be lost forever.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/Instances/Instance/Filters/Filter/Specifics/Level</Name>
+    <Context>Compression filter</Context>
+    <Required>true</Required>
+    <PossibleValues>1-9</PossibleValues>
+    <Example>1</Example>
+    <Description>The compression level, from 1 to 9, 1 being the fastest and 9 the most efficient, albeit the slowest and more memory consuming.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/Id</Name>
+    <Required>true</Required>
+    <Example>myFSID</Example>
+    <Description>The name of this filesystem.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/Type</Name>
+    <Required>false</Required>
+    <Default>Single</Default>
+    <PossibleValues>Single, Mirroring, Striping</PossibleValues>
+    <Example>Mirroring</Example>
+    <Description>The type of filesystem. A value other than single is only relevant
+    for a filesystem using two or more instances.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/CacheRoot</Name>
+    <Required>true</Required>
+    <Example>/usr/local/cache/</Example>
+    <Description>An existing directory under which Cloud Gateway
+    Storage Manager will store cached files. This directory should be
+    readable and writable, and should have at least twice the size of
+    the biggest file used on this filesystem available.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/FullThreshold</Name>
+    <Required>true</Required>
+    <PossibleValues>0-100</PossibleValues>
+    <Example>10</Example>
+    <Description>The minimum free space, in percent, that the filesystem
+    containing the CacheRoot directory should have in order not to be considered as dangerously
+    full. If this threshold is reached, the Cloud Gateway Storage
+    Manager Cleaner process will be executed in order to regain space
+    by deleting old unused files present in cache.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/IOBlockSize</Name>
+    <Required>false</Required>
+    <Default>4096</Default>
+    <Example>4096</Example>
+    <Description>The filesystem preferred I/O block size. Default depends on the operating system page size.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/AutoExpunge</Name>
+    <Required>false</Required>
+    <Default>false</Default>
+    <Example>true</Example>
+    <Description>This option instructs the Storage Manager to expunge an entry from the cache as soon as it has been synced
+      to all the mirrored storage providers.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/InodeDigestAlgorithm</Name>
+    <Required>false</Required>
+    <Default>sha256</Default>
+    <PossibleValues>none, md5, ripemd160, sha1, sha256, sha512, whirlpool</PossibleValues>
+    <Example>sha256</Example>
+    <Description>The filesystem inode digest algorithm. This digest is computed before uploading the
+    inode content, stored in the database and checked when the inode content is downloaded.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/CleanMinFileSize</Name>
+    <Required>false</Required>
+    <Default>0</Default>
+    <PossibleValues>1-18446744073709551615</PossibleValues>
+    <Example>4096</Example>
+    <Description>The minimum file size in bytes for an object to be considered by the cache cleaning process.
+    Default is 0.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/CleanMaxAccessOffset</Name>
+    <Required>false</Required>
+    <Default>86400</Default>
+    <PossibleValues>60-18446744073709551615</PossibleValues>
+    <Example>86400</Example>
+    <Description>Only files that have been not been accessed for
+    at least this value (in seconds) might be cleaned. Default is
+    86400.
+    A value under 60 will be rounded up to 60.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/Instances/Instance</Name>
+    <Required>true</Required>
+    <Description>Instance name of one instance used by this filesystem. If more that one
+    instance is used by a filesystem, the filesystem type
+    (Configuration/FileSystems/FileSystem/Type)
+    determines how each instance will be used.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/MountPoint</Name>
+    <Required>true</Required>
+    <Description>The directory where the filesystem should be mounted.
+    </Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/ConnectionsPoolSize</Name>
+    <Required>false</Required>
+    <Default>10</Default>
+    <Example>100</Example>
+    <Description>The maximum number of cached connections to the storage manager.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/MaxConnectionIdleTime</Name>
+    <Required>false</Required>
+    <Default>10</Default>
+    <Example>60</Example>
+    <Description>How long, in seconds, can a cached connection remain idle. 0 means unlimited.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/MaxRequestsPerConnection</Name>
+    <Required>false</Required>
+    <Default>1000</Default>
+    <Example>10000</Example>
+    <Description>The maximum number of requests that can be served over the same connection. 0 means unlimited.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/RetryCount</Name>
+    <Required>false</Required>
+    <Example>3</Example>
+    <Default>3</Default>
+    <Description>How many times we reset a request and try again in case of error.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/DirtynessDelay</Name>
+    <Required>false</Required>
+    <Default>10</Default>
+    <Example>10</Example>
+    <Description>The FUSE component notify the Storage Manager about write() operation done
+      to a file, at most every dirtyness delay seconds.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/NameMax</Name>
+    <Required>false</Required>
+    <Default>255</Default>
+    <Example>255</Example>
+    <Description>The maximum length of a pathname component, 0 means unlimited.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/PathMax</Name>
+    <Required>false</Required>
+    <Default>1024</Default>
+    <Example>1024</Example>
+    <Description>The maximum length of a path, 0 means unlimited.</Description>
+  </Parameter>
+
+  <Parameter>
+    <Name>Configuration/FileSystems/FileSystem/DirIndexLimit</Name>
+    <Required>false</Required>
+    <Default>10000</Default>
+    <Example>10000</Example>
+    <Description>Store an in-memory hash table to list entries in directory to have better
+      performance when there is more than DirIndexLimit entries.
+    </Description>
+  </Parameter>
+
+</Parameters>

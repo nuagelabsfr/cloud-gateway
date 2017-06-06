@@ -1,0 +1,3 @@
+ITEM("instance-name", instance_name, 'i', "", true, "Instance name")
+ITEM("type", filter_type, 't', "Type", true, "Filter type (Compression, Encryption)")
+ITEM("file", file, 'f', "", true, "Configuration file")

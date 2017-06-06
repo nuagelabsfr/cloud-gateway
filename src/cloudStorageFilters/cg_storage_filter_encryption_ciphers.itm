@@ -1,0 +1,22 @@
+
+/* List of allowed ciphers for the encryption Cloud Storage Filter */
+/* Only stream safe ciphers are allowed, CTR or CBC..
+*/
+
+/* AES CBC */
+CIPHER("aes-128-cbc")
+CIPHER("aes-192-cbc")
+CIPHER("aes-256-cbc")
+
+/* AES CTR (Counter) */
+CIPHER("aes-128-ctr")
+CIPHER("aes-192-ctr")
+CIPHER("aes-256-ctr")
+
+/* Blowfish CBC */
+CIPHER("bf-cbc")
+
+/* Camellia CBC */
+CIPHER("camellia-128-cbc")
+CIPHER("camellia-192-cbc")
+CIPHER("camellia-256-cbc")

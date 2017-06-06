@@ -1,0 +1,13 @@
+[Unit]
+Description=Cloud Gateway
+After=network.target
+
+[Service]
+PIDFile=@CMAKE_INSTALL_PREFIX@/run/cloudgateway/CloudGatewayStorageManager.pid
+Type=forking
+User=cloudgw
+ExecStart=@CMAKE_INSTALL_PREFIX@//bin/CloudGatewayStorageManager start
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
