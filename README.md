@@ -31,7 +31,7 @@ Cloud Gateway's build is based on `cmake`.
 Get cloudgw:
 
 ```
-git clone https://github.com/nuagelabsfr/cloudgw.git
+git clone https://github.com/nuagelabsfr/cloud-gateway.git
 cd cloudgw
 ```
 
