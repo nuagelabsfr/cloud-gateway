@@ -46,36 +46,36 @@ Parameters
    -  **Striping**, where data are distributed over all instance
       associated with the filesystem.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/Type <configuration_options.html#configuration-filesystems-filesystem-type>`_.
 
 -  **Cache root (-c --cache-root)** the root cache directory of the new
    filesystem.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/CacheRoot <configuration_options.html#configuration-filesystems-filesystem-cacheroot>`_.
 
 -  **Full threshold (-u --full-threshold)** the full threshold of the
    new filesystem, over which the cleaner begins to expunge cache
    entries.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/FullThreshold <configuration_options.html#configuration-filesystems-filesystem-fullthreshold>`_.
 
 -  **I/O block size (-o --io-block-size)** the new filesystem’s
    preferred I/O block size, in bytes.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/IOBlockSize <configuration_options.html#configuration-filesystems-filesystem-ioblocksize>`_.
 
 -  **Cleaner minimum file size (-s --clean-min-file-size)** the new
    filesystem’s cleaner minimum file size. Files smaller than this size
    won’t get expunged from the cache.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/CleanMinFileSize <configuration_options.html#configuration-filesystems-filesystem-cleanminfilesize>`_.
 
 -  **Cleaner maximum access offset (-a --clean-max-access-offset)** the
    new filesystem’s cleaner maximum offset. Only files that have not
    been accessed for at least as many seconds are considered for
    cleaning.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/CleanMaxAccessOffset <configuration_options.html#configuration-filesystems-filesystem-cleanmaxaccessoffset>`_.
 
 -  **Configuration file (-m --mount-point)** the mount point where the
    filesystem will be mounted.
@@ -123,33 +123,33 @@ Parameters
    -  **Encryption**, encrypting file content on-the-fly before sending
       it to the Cloud.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Type <configuration_options.html#configuration-instances-instance-filters-filter-type>`_.
 
 -  **Level (-l --level)** the compression level used by the compression
    filter. Valid levels range from 1 to 9, 1 being the fastest and 9 the
    most efficient, albeit slowest and memory consuming.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Specifics/Level <configuration_options.html#configuration-instances-instance-filters-filter-specifics-level>`_.
 
 -  **Cipher (-c --cipher)** the cipher used by the encryption filter.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Specifics/Cipher <configuration_options.html#configuration-instances-instance-filters-filter-specifics-cipher>`_.
 
 -  **Digest (-d --digest)** the digest used to derive an encryption key
    from the password, with the encryption filter.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Specifics/Digest <configuration_options.html#configuration-instances-instance-filters-filter-specifics-digest>`_.
 
 -  **Key iteration count (-k --key-iteration-count)** the number of
    iterations used to derive an encryption key from the password, with
    the encryption filter.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Specifics/KeyIterationCount <configuration_options.html#configuration-instances-instance-filters-filter-specifics-keyiterationcount>`_.
 
 -  **Password (-p --password)** the password used to derive an
    encryption key, with the encryption filter.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Specifics/Password <configuration_options.html#configuration-instances-instance-filters-filter-specifics-password>`_.
 
 CloudGatewayAddInstance
 -----------------------
@@ -204,106 +204,106 @@ Parameters
    -  **Openstack**, all providers compatible with the Openstack Swift
       API.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Provider <configuration_options.html#configuration-instances-instance-provider>`_.
 
 -  **Access key identifier (-a --access-key-id)** the access key
    identifier, required when using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/AccessKeyId <configuration_options.html#configuration-instances-instance-specifics-accesskeyid>`_.
 
 -  **Secret access key (-s --secret-access-key)** the secret access key,
    required when using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/SecretAccessKey <configuration_options.html#configuration-instances-instance-specifics-secretaccesskey>`_.
 
 -  **Endpoint (-e --endpoint)** the cloud provider endpoint, required
    when using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/Endpoint <configuration_options.html#configuration-instances-instance-specifics-endpoint>`_.
 
 -  **Endpoint port (-g --endpoint-port)** the cloud provider endpoint
    port, required when using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/EndpointPort <configuration_options.html#configuration-instances-instance-specifics-endpointport>`_.
 
 -  **Bucket (-b --bucket)** an existing bucket to use, required when
    using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/Bucket <configuration_options.html#configuration-instances-instance-specifics-bucket>`_.
 
 -  **Secure transaction (-S --secure-transaction)** whether to use
    SSL/TLS to secure transfers, required when using a S3 provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/SecureTransaction <configuration_options.html#configuration-instances-instance-specifics-securetransaction>`_.
 
 -  **Identity version (-i --identity-version)** the Openstack Swift
    identity version to use, required when using an Openstack provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/IdentityVersion <configuration_options.html#configuration-instances-instance-specifics-identityversion>`_.
 
 -  **Username (-u --user-name)** the username used to authenticate to
    the storage provider, required when using an Openstack provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/Username <configuration_options.html#configuration-instances-instance-specifics-username>`_.
 
 -  **Password (-p --password)** the password used to authenticate to the
    storage provider, required when using an Openstack provider and
    identity v2.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/Password <configuration_options.html#configuration-instances-instance-specifics-password>`_.
 
 -  **Tenant ID (-t --tenant-id)** the tenant ID used to authenticate to
    the storage provider, required when using an Openstack provider and
    identity v2 with a tenant ID.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/TenantId <configuration_options.html#configuration-instances-instance-specifics-tenantid>`_.
 
 -  **Tenant name (-T --tenant-name)** the tenant name used to
    authenticate to the storage provider, required when using an
    Openstack provider and identity v2 with a tenant name.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/TenantName <configuration_options.html#configuration-instances-instance-specifics-tenantname>`_.
 
 -  **API access key (-I --api-access-key)** the API access key used to
    authenticate to the storage provider, required when using an
    Openstack provider and identity v1.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/APIAccessKey <configuration_options.html#configuration-instances-instance-specifics-apiaccesskey>`_.
 
 -  **Authentication endpoint (-A --authentication-endpoint)** the cloud
    storage provider authentication endpoint, required when using an
    Openstack provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/AuthenticationEndpoint <configuration_options.html#configuration-instances-instance-specifics-authenticationendpoint>`_.
 
 -  **Container (-c --container)** an existing container to use, required
    when using an Openstack provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/Container <configuration_options.html#configuration-instances-instance-specifics-container>`_.
 
 -  **Preferred region (-r --preferred-region)** the preferred region to
    use, if any, when using an Openstack provider.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/PreferredRegion <configuration_options.html#configuration-instances-instance-specifics-preferredregion>`_.
 
 -  **Authentication maximum lifetime (-m
    --authentication-max-life-time)** the maximum lifetime of an
    Openstack token.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/AuthenticationMaxLifetime <configuration_options.html#configuration-instances-instance-specifics-authenticationmaxlifetime>`_.
 
 -  **Authentication recent token delay (-R
    --authentication-recent-token-delay)** authentication error when
    using an Openstack token older than this delay will trigger a
    re-authentication attempt.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/AuthenticationTokenRecentDelay <configuration_options.html#configuration-instances-instance-specifics-authenticationtokenrecentdelay>`_.
 
 -  **Allow insecure connection (-k --allow-insecure)** allows the cloud
    provider to present an invalid certificate. This means that the
    transfer will not be secured.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Specifics/AllowInsecureHTTPS <configuration_options.html#configuration-instances-instance-specifics-allowinsecurehttps>`_.
 
 CloudGatewayListFilesystems
 ---------------------------
@@ -365,7 +365,7 @@ Parameters
    This is only required if the *MountPoint* value does not exist in the
    configuration file.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/MountPoint <configuration_options.html#configuration-filesystems-filesystem-mountpoint>`_.
 
 -  **Configuration file** the mount point configuration file.
 
@@ -435,7 +435,7 @@ Parameters
 
 -  **Filter type (-f --type)** the type of the filter to be removed.
 
-   See ** on page .
+   See `Configuration/Instances/Instance/Filters/Filter/Type <configuration_options.html#configuration-instances-instance-filters-filter-type>`_.
 
 -  **Configuration file (-f --file)** the Cloud Gateway Storage Manager
    configuration file to update.
@@ -610,6 +610,6 @@ Parameters
 
 -  **Mount point** the directory where the filesystem is mounted.
 
-   See ** on page .
+   See `Configuration/FileSystems/FileSystem/MountPoint <configuration_options.html#configuration-filesystems-filesystem-mountpoint>`_.
 
 -  **Configuration file** the mount point configuration file.
