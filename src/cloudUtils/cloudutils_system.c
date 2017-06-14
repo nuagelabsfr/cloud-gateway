@@ -1419,7 +1419,11 @@ int cgutils_system_network_interface_vlan_add(char const * const itf_name,
 
                     if (master_interface_idx > 0)
                     {
+#if LIBNL_CURRENT < 217
+                        struct rtnl_link * vlan_link = rtnl_link_alloc();
+#else
                         struct rtnl_link * vlan_link = rtnl_link_vlan_alloc();
+#endif
 
                         if (vlan_link != NULL)
                         {
@@ -1513,7 +1517,11 @@ int cgutils_system_network_interface_del(char const * const itf_name)
 
             if (result == 0)
             {
+#if LIBNL_CURRENT < 217
+                struct rtnl_link * vlan_link = rtnl_link_alloc();
+#else
                 struct rtnl_link * vlan_link = rtnl_link_vlan_alloc();
+#endif
 
                 if (vlan_link != NULL)
                 {

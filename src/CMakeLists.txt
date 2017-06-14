@@ -20,9 +20,11 @@ set(CMAKE_MODULE_LINKER_FLAGS "$ENV{LDFLAGS}")
 
 LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules/")
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99")
+
 if(CMAKE_COMPILER_IS_GNUCC OR ${CMAKE_C_COMPILER} STREQUAL "clang")
 
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wstrict-aliasing -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Werror-implicit-function-declaration -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Winline -Wconversion -pipe -Wextra -Wcast-align -Wno-missing-field-initializers -Wmain -Waddress -Wunused-macros -fstack-protector -fPIC -fvisibility=hidden")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-aliasing -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Werror-implicit-function-declaration -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Winline -Wconversion -pipe -Wextra -Wcast-align -Wno-missing-field-initializers -Wmain -Waddress -Wunused-macros -fstack-protector -fPIC -fvisibility=hidden")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIE -pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro,-z,now")
     set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro,-z,now")
@@ -42,7 +44,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR ${CMAKE_C_COMPILER} STREQUAL "clang")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wassign-enum -Wnewline-eof -Wextra-semi -Wmissing-variable-declarations")
     else()
-        message(STATUS "Compiler is other : ${CMAKE_C_COMPILER}")
+        message(STATUS "Compiler is: ${CMAKE_C_COMPILER}")
         # Always generate debug information, so it will remain available in separate file even after strip
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3")
     endif()
@@ -159,6 +161,8 @@ if(CMAKE_COMPILER_IS_GNUCC OR ${CMAKE_C_COMPILER} STREQUAL "clang")
 
     endif()
 
+else()
+    message(STATUS "Compiler is: ${CMAKE_C_COMPILER}")
 endif()
 
 # The explicit FILE_OFFSET_BITS is useless since it's already defined by LFS_CFLAGS
