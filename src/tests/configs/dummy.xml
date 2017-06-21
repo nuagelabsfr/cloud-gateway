@@ -1,0 +1,13 @@
+<CloudStorageInstance>
+  <Name>Test</Name>
+  <Type>Cloud</Type>
+  <Specific>
+    <AccessKeyId>MyAccessID</AccessKeyId>
+    <SecretAccessKey>MySecretKey</SecretAccessKey>
+    <Endpoint>my.endpoint</Endpoint>
+    <EndpointPort>4242</EndpointPort>
+    <SecureTransaction>true</SecureTransaction>
+    <Bucket>MyBucket</Bucket>
+    <Verbose>true</Verbose>
+  </Specific>
+</CloudStorageInstance>

@@ -43,7 +43,6 @@
 #define TEST_FILE_HASH_ALGO (cgutils_crypto_digest_algorithm_sha256)
 
 #define TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE TEST_BASE_DIR "/storage_filter_encryption_config.xml"
-#define TEST_STORAGE_FILTER_DIR TEST_BUILD_DIR "/cloudStorageFilters/lib/"
 
 static cg_storage_manager_data * data = NULL;
 
@@ -76,9 +75,10 @@ static int test_openstack_storage_filter_init(void)
     if (result == 0)
     {
         cg_storage_filter * storage_filter = NULL;
+        char * storage_filter_dir = cg_tests_get_storage_filter_dir();
 
         result = cg_storage_filter_init("encryption",
-                                        TEST_STORAGE_FILTER_DIR,
+                                        storage_filter_dir,
                                         conf,
                                         &storage_filter);
 
@@ -113,6 +113,7 @@ static int test_openstack_storage_filter_init(void)
 
         }
 
+        CGUTILS_FREE(storage_filter_dir);
         cgutils_configuration_free(conf), conf = NULL;
     }
 

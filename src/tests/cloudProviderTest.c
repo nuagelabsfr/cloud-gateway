@@ -37,14 +37,12 @@
 
 #define TEST_SMALL_FILE_REMOTE_ID "0xDEADBEEFSMALL"
 #define TEST_HUGE_FILE_REMOTE_ID "0xDEADBEEFHUGE"
-#define TEST_SMALL_FILE_PATH TEST_BASE_DIR "/config.xml"
-#define TEST_HUGE_FILE_PATH "/data/Dumps/random"
-#define TEST_GET_FILE_PATH "/tmp/test_provider_file_get.data"
 #define TEST_FILE_HASH_ALGO (cgutils_crypto_digest_algorithm_sha256)
 #define TEST_FILE_DISK_HASH_ALGO (cgutils_crypto_digest_algorithm_sha256)
 #define TEST_TEMPORARY_CONTAINER_NAME "cloudprovidertesttemporarycontainer"
 
-#define TEST_CONFIG_FILES_PATH TEST_BASE_DIR "/configs/"
+#define SMALL_DATA_FILE "small.data"
+#define HUGE_DATA_FILE "huge.data"
 
 static cg_storage_manager_data * data = NULL;
 
@@ -371,7 +369,9 @@ static int test_provider_put_small_file_cb(int const status,
         CGUTILS_FREE(test_provider_small_file_hash);
         CGUTILS_FREE(test_provider_small_file_disk_hash);
 
-        int result = cgutils_file_hash_sync(TEST_SMALL_FILE_PATH,
+        char * small_file_path = cg_tests_get_temp_file(SMALL_DATA_FILE);
+
+        int result = cgutils_file_hash_sync(cg_tests_get_temp_file(small_file_path),
                                             TEST_FILE_HASH_ALGO,
                                             &test_provider_small_file_hash,
                                             &test_provider_small_file_hash_size);
@@ -386,6 +386,7 @@ static int test_provider_put_small_file_cb(int const status,
                         "cgutils_file_hash_sync consistency");
         }
 
+        CGUTILS_FREE(small_file_path);
         TEST_ASSERT(infos != NULL, "test_provider_put_small_file_cb infos != NULL");
 
         if (infos != NULL)
@@ -427,9 +428,10 @@ static int test_provider_put_small_file(char const * const instance_name)
 
         if (fd != NULL)
         {
+            char * small_file_path = cg_tests_get_temp_file(SMALL_DATA_FILE);
             *fd = -1;
 
-            result = cgutils_file_open(TEST_SMALL_FILE_PATH, O_RDONLY | O_NONBLOCK, 0, fd);
+            result = cgutils_file_open(small_file_path, O_RDONLY | O_NONBLOCK, 0, fd);
 
             TEST_ASSERT(result == 0, "cgutils_file_open");
 
@@ -464,6 +466,8 @@ static int test_provider_put_small_file(char const * const instance_name)
 
                 }
             }
+
+            CGUTILS_FREE(small_file_path);
         }
         else
         {
@@ -491,7 +495,9 @@ static int test_provider_put_huge_file_cb(int const status,
         CGUTILS_FREE(test_provider_huge_file_hash);
         CGUTILS_FREE(test_provider_huge_file_disk_hash);
 
-        int result = cgutils_file_hash_sync(TEST_HUGE_FILE_PATH,
+        char * huge_file_path = cg_tests_get_temp_file(HUGE_DATA_FILE);
+
+        int result = cgutils_file_hash_sync(huge_file_path,
                                             TEST_FILE_HASH_ALGO,
                                             &test_provider_huge_file_hash,
                                             &test_provider_huge_file_hash_size);
@@ -505,6 +511,8 @@ static int test_provider_put_huge_file_cb(int const status,
             TEST_ASSERT(test_provider_huge_file_hash_size > 0,
                         "cgutils_file_hash_sync consistency");
         }
+
+        CGUTILS_FREE(huge_file_path);
 
         TEST_ASSERT(infos != NULL, "test_provider_put_huge_file_cb infos != NULL");
 
@@ -548,8 +556,9 @@ static int test_provider_put_huge_file(char const * const instance_name)
         if (fd != NULL)
         {
             *fd = -1;
+            char * huge_file_path = cg_tests_get_temp_file(HUGE_DATA_FILE);
 
-            result = cgutils_file_open(TEST_HUGE_FILE_PATH, O_RDONLY | O_NONBLOCK, 0, fd);
+            result = cgutils_file_open(huge_file_path, O_RDONLY | O_NONBLOCK, 0, fd);
 
             TEST_ASSERT(result == 0, "cgutils_file_open");
 
@@ -584,6 +593,8 @@ static int test_provider_put_huge_file(char const * const instance_name)
 
                 }
             }
+
+            CGUTILS_FREE(huge_file_path);
         }
         else
         {
@@ -608,10 +619,11 @@ static int test_provider_get_huge_file_cb(int const status,
 
     if (status == 0)
     {
+        char * file_path = cg_tests_get_temp_file("test_provider_file_get.data");
         void * hash = NULL;
         size_t hash_size = 0;
 
-        int result = cgutils_file_hash_sync(TEST_GET_FILE_PATH,
+        int result = cgutils_file_hash_sync(file_path,
                                             TEST_FILE_HASH_ALGO,
                                             &hash,
                                             &hash_size);
@@ -684,6 +696,8 @@ static int test_provider_get_huge_file_cb(int const status,
 
             CGUTILS_FREE(hash);
         }
+
+        CGUTILS_FREE(file_path);
     }
 
     if (cb_data != NULL)
@@ -717,9 +731,10 @@ static int test_provider_get_huge_file(char const * const instance_name)
 
         if (fd != NULL)
         {
+            char * file_path = cg_tests_get_temp_file("test_provider_file_get.data");
             *fd = -1;
 
-            result = cgutils_file_open(TEST_GET_FILE_PATH,
+            result = cgutils_file_open(file_path,
                                        O_WRONLY | O_NONBLOCK | O_CREAT | O_TRUNC,
                                        S_IRUSR | S_IWUSR,  fd);
 
@@ -744,6 +759,8 @@ static int test_provider_get_huge_file(char const * const instance_name)
                     CGUTILS_FREE(fd);
                 }
             }
+
+            CGUTILS_FREE(file_path);
         }
         else
         {
@@ -768,10 +785,11 @@ static int test_provider_get_small_file_cb(int const status,
 
     if (status == 0)
     {
+        char * file_path = cg_tests_get_temp_file("test_provider_file_get.data");
         void * hash = NULL;
         size_t hash_size = 0;
 
-        int result = cgutils_file_hash_sync(TEST_GET_FILE_PATH,
+        int result = cgutils_file_hash_sync(file_path,
                                             TEST_FILE_HASH_ALGO,
                                             &hash,
                                             &hash_size);
@@ -837,6 +855,8 @@ static int test_provider_get_small_file_cb(int const status,
                 }
             }
         }
+
+        CGUTILS_FREE(file_path);
     }
 
     if (cb_data != NULL)
@@ -870,9 +890,10 @@ static int test_provider_get_small_file(char const * const instance_name)
 
         if (fd != NULL)
         {
+            char * file_path = cg_tests_get_temp_file("test_provider_file_get.data");
             *fd = -1;
 
-            result = cgutils_file_open(TEST_GET_FILE_PATH,
+            result = cgutils_file_open(file_path,
                                        O_WRONLY | O_NONBLOCK | O_CREAT | O_TRUNC,
                                        S_IRUSR | S_IWUSR,  fd);
 
@@ -897,6 +918,8 @@ static int test_provider_get_small_file(char const * const instance_name)
                     CGUTILS_FREE(fd);
                 }
             }
+
+            CGUTILS_FREE(file_path);
         }
         else
         {
@@ -1016,7 +1039,8 @@ static int test_provider_test_suite(char const * const instance_name)
                     "cg_storage_instance_put_small_file boolean true");
     }
 
-    cgutils_file_unlink(TEST_GET_FILE_PATH);
+    char * file_path = cg_tests_get_temp_file("test_provider_file_get.data");
+    cgutils_file_unlink(file_path);
 
     CGUTILS_DEBUG("- Getting small file");
 
@@ -1070,7 +1094,7 @@ static int test_provider_test_suite(char const * const instance_name)
                     "cg_storage_instance_put_huge_file boolean true");
     }
 
-    cgutils_file_unlink(TEST_GET_FILE_PATH);
+    cgutils_file_unlink(file_path);
 
     CGUTILS_DEBUG("- Getting huge file");
 
@@ -1119,6 +1143,7 @@ static int test_provider_test_suite(char const * const instance_name)
     CGUTILS_FREE(test_provider_small_file_disk_hash);
     CGUTILS_FREE(test_provider_huge_file_hash);
     CGUTILS_FREE(test_provider_huge_file_disk_hash);
+    CGUTILS_FREE(file_path);
 
     return result;
 }
@@ -1133,24 +1158,24 @@ int main(void)
     {
         struct
         {
-            char const * const file;
+            char * file;
             char const * const instance;
         }
-        const providers[] =
+        providers[] =
             {
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_posix_nofilters.xml", "POSIXInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_posix_encryption.xml", "POSIXInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_posix_compression.xml", "POSIXInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_posix_compression_encryption.xml", "POSIXInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_nofilters.xml"), "POSIXInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_encryption.xml"), "POSIXInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression.xml"), "POSIXInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression_encryption.xml"), "POSIXInstance1" },
 
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_s3_nofilters.xml", "AmazonInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_s3_encryption.xml", "AmazonInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_openstackv1_nofilters.xml", "OpenstackInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_openstackv2_nofilters.xml", "OpenstackInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_openstackv2_encryption.xml", "OpenstackInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_openstackv2_compression.xml", "OpenstackInstance1" },
-                { TEST_CONFIG_FILES_PATH "CloudGatewayConfiguration_openstackv2_compression_encryption.xml", "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_nofilters.xml"), "AmazonInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_encryption.xml"), "AmazonInstance1" },
 
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv1_nofilters.xml"), "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_nofilters.xml"), "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_encryption.xml"), "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression.xml"), "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression_encryption.xml"), "OpenstackInstance1" },
             };
         size_t const providers_count = sizeof providers / sizeof *providers;
 
@@ -1158,11 +1183,15 @@ int main(void)
              idx < providers_count;
              idx++)
         {
+            if (providers[idx].file == NULL)
+            {
+                continue;
+            }
             cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_DIM, CLOUDUTILS_ANSI_COLOR_CYAN, CLOUDUTILS_ANSI_COLOR_BLACK);
             CGUTILS_DEBUG("Testing %s : %s",
                           providers[idx].file,
                           providers[idx].instance);
-           cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_RESET, CLOUDUTILS_ANSI_COLOR_WHITE, CLOUDUTILS_ANSI_COLOR_BLACK);
+            cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_RESET, CLOUDUTILS_ANSI_COLOR_WHITE, CLOUDUTILS_ANSI_COLOR_BLACK);
 
             result = test_provider_init(providers[idx].file);
 
@@ -1172,6 +1201,8 @@ int main(void)
 
                 cg_storage_manager_data_free(data);
             }
+
+            CGUTILS_FREE(providers[idx].file);
         }
     }
 

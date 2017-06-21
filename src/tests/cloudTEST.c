@@ -53,12 +53,12 @@
 
 #include "cloudTest.h"
 
-#define TEST_CONFIG_FILE TEST_BASE_DIR "/config.xml"
-#define TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE TEST_BASE_DIR "/storage_filter_encryption_config.xml"
-#define TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE TEST_BASE_DIR "/storage_filter_compression_config.xml"
 #define TESTDIR "/tmp/cgutils_test_dir"
 #define TESTFILE "/tmp/cgutils_test_dir/test_file"
 #define AIO_TEST_FILE "/tmp/cgutils_test_aio_test_file"
+
+#define TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE "storage_filter_encryption_config.xml"
+#define TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE "storage_filter_compression_config.xml"
 
 static char const test_cgutils_encryption_in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 static size_t const test_cgutils_encryption_in_size = sizeof test_cgutils_encryption_in - 1;
@@ -80,9 +80,10 @@ static int test_cgutils_storage_filter_decryption(char const * const in,
     int result = 0;
     assert(in != NULL);
 
+    char * config_file = cg_tests_get_config_file(TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE);
     cgutils_configuration * conf = NULL;
 
-    result = cgutils_configuration_from_xml_file(TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE,
+    result = cgutils_configuration_from_xml_file(config_file,
                                                  &conf);
 
     TEST_ASSERT(result == 0, "cgutils_configuration_from_xml_file");
@@ -90,9 +91,10 @@ static int test_cgutils_storage_filter_decryption(char const * const in,
     if (result == 0)
     {
         cg_storage_filter * filter = NULL;
+        char * storage_filter_dir = cg_tests_get_storage_filter_dir();
 
         result = cg_storage_filter_init("encryption",
-                                        TEST_STORAGE_FILTER_DIR,
+                                        storage_filter_dir,
                                         conf,
                                         &filter);
 
@@ -188,8 +190,11 @@ static int test_cgutils_storage_filter_decryption(char const * const in,
             cg_storage_filter_free(filter), filter = NULL;
         }
 
+        CGUTILS_FREE(storage_filter_dir);
         cgutils_configuration_free(conf), conf = NULL;
     }
+
+    CGUTILS_FREE(config_file);
 
     return result;
 }
@@ -201,9 +206,10 @@ static int test_cgutils_storage_filter_encryption(char ** const final,
     assert(final != NULL);
     assert(final_size != NULL);
 
+    char * config_file = cg_tests_get_config_file(TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE);
     cgutils_configuration * conf = NULL;
 
-    result = cgutils_configuration_from_xml_file(TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE,
+    result = cgutils_configuration_from_xml_file(config_file,
                                                  &conf);
 
     TEST_ASSERT(result == 0, "cgutils_configuration_from_xml_file");
@@ -211,9 +217,10 @@ static int test_cgutils_storage_filter_encryption(char ** const final,
     if (result == 0)
     {
         cg_storage_filter * filter = NULL;
+        char * storage_filter_dir = cg_tests_get_storage_filter_dir();
 
         result = cg_storage_filter_init("encryption",
-                                        TEST_STORAGE_FILTER_DIR,
+                                        storage_filter_dir,
                                         conf,
                                         &filter);
 
@@ -296,8 +303,11 @@ static int test_cgutils_storage_filter_encryption(char ** const final,
             cg_storage_filter_free(filter), filter = NULL;
         }
 
+        CGUTILS_FREE(storage_filter_dir);
         cgutils_configuration_free(conf), conf = NULL;
     }
+
+    CGUTILS_FREE(config_file);
 
     return result;
 }
@@ -308,9 +318,10 @@ static int test_cgutils_storage_filter_decompression(char const * const in,
     int result = 0;
     assert(in != NULL);
 
+    char * config_file = cg_tests_get_config_file(TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE);
     cgutils_configuration * conf = NULL;
 
-    result = cgutils_configuration_from_xml_file(TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE,
+    result = cgutils_configuration_from_xml_file(config_file,
                                                  &conf);
 
     TEST_ASSERT(result == 0, "cgutils_configuration_from_xml_file");
@@ -318,9 +329,10 @@ static int test_cgutils_storage_filter_decompression(char const * const in,
     if (result == 0)
     {
         cg_storage_filter * filter = NULL;
+        char * storage_filter_dir = cg_tests_get_storage_filter_dir();
 
         result = cg_storage_filter_init("compression",
-                                        TEST_STORAGE_FILTER_DIR,
+                                        storage_filter_dir,
                                         conf,
                                         &filter);
 
@@ -416,8 +428,11 @@ static int test_cgutils_storage_filter_decompression(char const * const in,
             cg_storage_filter_free(filter), filter = NULL;
         }
 
+        CGUTILS_FREE(storage_filter_dir);
         cgutils_configuration_free(conf), conf = NULL;
     }
+
+    CGUTILS_FREE(config_file);
 
     return result;
 }
@@ -429,9 +444,10 @@ static int test_cgutils_storage_filter_compression(char ** const final,
     assert(final != NULL);
     assert(final_size != NULL);
 
+    char * config_file = cg_tests_get_config_file(TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE);
     cgutils_configuration * conf = NULL;
 
-    result = cgutils_configuration_from_xml_file(TEST_STORAGE_FILTER_COMPRESSION_CONFIG_FILE,
+    result = cgutils_configuration_from_xml_file(config_file,
                                                  &conf);
 
     TEST_ASSERT(result == 0, "cgutils_configuration_from_xml_file");
@@ -439,9 +455,10 @@ static int test_cgutils_storage_filter_compression(char ** const final,
     if (result == 0)
     {
         cg_storage_filter * filter = NULL;
+        char * storage_filter_dir = cg_tests_get_storage_filter_dir();
 
         result = cg_storage_filter_init("compression",
-                                        TEST_STORAGE_FILTER_DIR,
+                                        storage_filter_dir,
                                         conf,
                                         &filter);
 
@@ -524,8 +541,11 @@ static int test_cgutils_storage_filter_compression(char ** const final,
             cg_storage_filter_free(filter), filter = NULL;
         }
 
+        CGUTILS_FREE(storage_filter_dir);
         cgutils_configuration_free(conf), conf = NULL;
     }
+
+    CGUTILS_FREE(config_file);
 
     return result;
 }
@@ -1417,8 +1437,9 @@ static int test_cgutils_rbtree(void)
 static int test_cgutils_configuration(void)
 {
     cgutils_configuration * config = NULL;
+    char * config_file = cg_tests_get_config_file("dummy.xml");
 
-    int result = cgutils_configuration_from_xml_file(TEST_CONFIG_FILE,
+    int result = cgutils_configuration_from_xml_file(config_file,
                                                      &config);
 
     TEST_ASSERT(result == 0, "cgutils_configuration_from_xml_file");
@@ -1472,7 +1493,7 @@ static int test_cgutils_configuration(void)
 
             if(result == 0)
             {
-                TEST_ASSERT(signed_integer == 42, "cgutils_configuration_get_integer consistency");
+                TEST_ASSERT(signed_integer == 4242, "cgutils_configuration_get_integer consistency");
             }
 
             result = cgutils_configuration_get_unsigned_integer(specific_config,
@@ -1483,7 +1504,7 @@ static int test_cgutils_configuration(void)
 
             if(result == 0)
             {
-                TEST_ASSERT(unsigned_integer == 42, "cgutils_configuration_get_unsigned_integer consistency");
+                TEST_ASSERT(unsigned_integer == 4242, "cgutils_configuration_get_unsigned_integer consistency");
             }
 
             result = cgutils_configuration_get_boolean(specific_config,
@@ -1504,14 +1525,17 @@ static int test_cgutils_configuration(void)
         cgutils_configuration_free(config), config = NULL;
     }
 
+    CGUTILS_FREE(config_file);
+
     return result;
 }
 
 static int test_cgutils_file(void)
 {
     int result = 0;
+    char * config_file = cg_tests_get_config_file(TEST_STORAGE_FILTER_ENCRYPTION_CONFIG_FILE);
 
-    TEST_ASSERT(cgutils_file_exists(TEST_CONFIG_FILE) == true, "cgutils_file_exists");
+    TEST_ASSERT(cgutils_file_exists(config_file) == true, "cgutils_file_exists");
 
     if (cgutils_file_exists(TESTDIR) == true)
     {
@@ -1612,6 +1636,8 @@ static int test_cgutils_file(void)
             TEST_ASSERT(result == 0, "cgutils_file_rmdir");
         }
     }
+
+    CGUTILS_FREE(config_file);
 
     return result;
 }
