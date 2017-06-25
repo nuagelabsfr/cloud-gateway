@@ -32,5 +32,8 @@ script:
   - cd build
   - CFLAGS="${CFLAGS} -I${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/src/" LDFLAGS="${LDFLAGS} -L${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/build/src/lib/"  cmake ../src
   - make
-  - LD_LIBRARY_PATH="${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/build/src/lib/" CTEST_OUTPUT_ON_FAILURE=TRUE make test
+  ### prepare test environment:
+  - dd if=/dev/urandom of=/tmp/small.data bs=1M count=1
+  - dd if=/dev/urandom of=/tmp/huge.data bs=1M count=100
+  - LD_LIBRARY_PATH="${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/build/src/lib/" CG_TESTS_LOCAL_PROVIDERS_ONLY=true CTEST_OUTPUT_ON_FAILURE=TRUE make test
 

@@ -371,7 +371,7 @@ static int test_provider_put_small_file_cb(int const status,
 
         char * small_file_path = cg_tests_get_temp_file(SMALL_DATA_FILE);
 
-        int result = cgutils_file_hash_sync(cg_tests_get_temp_file(small_file_path),
+        int result = cgutils_file_hash_sync(small_file_path,
                                             TEST_FILE_HASH_ALGO,
                                             &test_provider_small_file_hash,
                                             &test_provider_small_file_hash_size);
@@ -1151,6 +1151,7 @@ static int test_provider_test_suite(char const * const instance_name)
 int main(void)
 {
     int result = cg_tests_init_all();
+    bool localOnly = getenv("CG_TESTS_LOCAL_PROVIDERS_ONLY") != NULL;
 
     TEST_ASSERT(result == 0, "cgutils_init_all");
 
@@ -1160,22 +1161,23 @@ int main(void)
         {
             char * file;
             char const * const instance;
+            bool remote;
         }
         providers[] =
             {
-                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_nofilters.xml"), "POSIXInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_encryption.xml"), "POSIXInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression.xml"), "POSIXInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression_encryption.xml"), "POSIXInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_nofilters.xml"), "POSIXInstance1", false },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_encryption.xml"), "POSIXInstance1", false },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression.xml"), "POSIXInstance1", false },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_posix_compression_encryption.xml"), "POSIXInstance1", false },
 
-                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_nofilters.xml"), "AmazonInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_encryption.xml"), "AmazonInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_nofilters.xml"), "AmazonInstance1", true },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_s3_encryption.xml"), "AmazonInstance1", true },
 
-                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv1_nofilters.xml"), "OpenstackInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_nofilters.xml"), "OpenstackInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_encryption.xml"), "OpenstackInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression.xml"), "OpenstackInstance1" },
-                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression_encryption.xml"), "OpenstackInstance1" },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv1_nofilters.xml"), "OpenstackInstance1", true },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_nofilters.xml"), "OpenstackInstance1", true },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_encryption.xml"), "OpenstackInstance1", true },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression.xml"), "OpenstackInstance1", true },
+                { cg_tests_get_config_file("CloudGatewayConfiguration_openstackv2_compression_encryption.xml"), "OpenstackInstance1", true },
             };
         size_t const providers_count = sizeof providers / sizeof *providers;
 
@@ -1187,6 +1189,12 @@ int main(void)
             {
                 continue;
             }
+
+            if (localOnly && providers[idx].remote == true)
+            {
+                continue;
+            }
+
             cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_DIM, CLOUDUTILS_ANSI_COLOR_CYAN, CLOUDUTILS_ANSI_COLOR_BLACK);
             CGUTILS_DEBUG("Testing %s : %s",
                           providers[idx].file,
