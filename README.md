@@ -10,10 +10,10 @@ released as an Open Source Software in 2017 under the AGPLv3 license.
 
 For Full documentation see docs/README.md.
 
-Prerequistes
+Prerequisites
 ------------
 
-Install prerequistes:
+Install prerequisites:
 ```
 sudo apt-get install build-essential bzip2 gzip git libreadline-dev libpq-dev postgresql-server-dev-all libcurl4-openssl-dev libnl-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev libxml2-dev libevent-dev libfuse-dev libjson-c-dev
 wget https://bitbucket.org/rgacogne/libevaio/get/libevaio_0_4.tar.bz2
