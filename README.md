@@ -15,7 +15,7 @@ Prerequisites
 
 Install prerequisites:
 ```
-sudo apt-get install build-essential bzip2 gzip git libreadline-dev libpq-dev postgresql-server-dev-all libcurl4-openssl-dev libnl-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev libxml2-dev libevent-dev libfuse-dev libjson-c-dev
+sudo apt-get install build-essential bzip2 gzip git libreadline-dev libpq-dev postgresql-server-dev-all libcurl4-openssl-dev libnl-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev libxml2-dev libevent-dev libfuse-dev libjson-c-dev cmake
 wget https://bitbucket.org/rgacogne/libevaio/get/libevaio_0_4.tar.bz2
 tar xjf libevaio_0_4.tar.bz2
 cd rgacogne-libevaio-36c968b3ad5f
@@ -27,6 +27,13 @@ Compilation
 -----------
 
 Cloud Gateway's build is based on `cmake`.
+
+
+Install prerequisites:
+
+```
+sudo apt-get install libz-dev libssl-dev
+```
 
 Get cloudgw:
 
