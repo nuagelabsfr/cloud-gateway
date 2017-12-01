@@ -1616,6 +1616,7 @@ static int cgfuse_event_run(char const * const process_name,
                     }
                     else
                     {
+                        result = ENOMEM;
                         fprintf(stderr,
                                 "%s: error allocating IO buffer: %d\n",
                                 process_name,
@@ -1628,6 +1629,7 @@ static int cgfuse_event_run(char const * const process_name,
                 }
                 else
                 {
+                    result = errno;
                     fprintf(stderr,
                             "%s: error while creating new session: %d\n",
                             process_name,
@@ -1638,6 +1640,7 @@ static int cgfuse_event_run(char const * const process_name,
             }
             else
             {
+                result = errno;
                 fprintf(stderr,
                         "%s: error while creating new chan: %d\n",
                         process_name,
@@ -1778,6 +1781,10 @@ int main(int argc,
             }
 
             cgfs_data_clean(&data);
+        }
+        else
+        {
+            result = EXIT_FAILURE;
         }
 
         cgfs_destroy();
