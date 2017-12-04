@@ -7,6 +7,7 @@ Requires=cloudgateway.service
 #Type=forking
 User=cloudgw
 ExecStart=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayMount %i @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml
+ExecStop=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayUnmount @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml %i
 
 [Install]
 WantedBy=multi-user.target
