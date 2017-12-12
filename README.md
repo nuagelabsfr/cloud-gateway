@@ -8,7 +8,7 @@ of a POSIX filesystem.
 Cloud Gateway is developed since 2011 by Nuage Labs SAS, and has been
 released as an Open Source Software in 2017 under the AGPLv3 license.
 
-For Full documentation see docs/README.md.
+For Full documentation see https://cloud-gateway.readthedocs.io/en/latest/.
 
 Prerequisites
 ------------
