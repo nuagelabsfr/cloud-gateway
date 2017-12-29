@@ -1,0 +1,6 @@
+<Specifics>
+  <Cipher>aes-128-ctr</Cipher>
+  <Digest>md5</Digest>
+  <KeyIterationCount>1</KeyIterationCount>
+  <Password>PleaseDontUseThisInsecureConfigurationAndReadTheDocumentation</Password>
+</Specifics>

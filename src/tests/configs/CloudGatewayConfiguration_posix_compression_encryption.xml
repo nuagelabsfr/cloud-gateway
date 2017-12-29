@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+
+  <General>
+    <ProvidersPath>cloudStorageProviders/lib/</ProvidersPath>
+    <DBBackendsPath>cloudDB/lib/</DBBackendsPath>
+    <FiltersPath>cloudStorageFilters/lib/</FiltersPath>
+    <ResourcesPath>Resources/</ResourcesPath>
+    <PidFile>/run/CloudGatewayStorageManager.pid</PidFile>
+    <CommunicationSocket>/run/CloudGatewayStorageManager.sock</CommunicationSocket>
+    <MonitorInformationsPath>/run/cgStorageManagerMonitor.shared</MonitorInformationsPath>
+  </General>
+
+  <DB>
+    <Type>PG</Type>
+    <Specifics>
+      <ConnectionString>hostaddr=127.0.0.1 port=5432 user=cloudgw-tests dbname=cloudgw-tests sslmode=disable</ConnectionString>
+    </Specifics>
+  </DB>
+
+  <Monitor>
+    <Delay>360</Delay>
+    <FileSize>1048576</FileSize>
+    <FileId>CG_STORAGE_MANAGER_MONITOR_TEST_FILE</FileId>
+    <FileTemplatePath>/tmp/</FileTemplatePath>
+    <FileDigest>md5</FileDigest>
+  </Monitor>
+
+  <Instances>
+
+    <Instance>
+      <Name>POSIXInstance1</Name>
+      <Provider>POSIX</Provider>
+      <Specifics>
+        <BaseDir>/tmp/posix-basedir</BaseDir>
+        <Verbose>false</Verbose>
+      </Specifics>
+
+      <Filters>
+        <Filter>
+          <Type>Compression</Type>
+          <Enabled>true</Enabled>
+
+          <Specifics>
+            <Level>9</Level>
+          </Specifics>
+
+        </Filter>
+
+        <Filter>
+          <Type>Encryption</Type>
+          <Enabled>true</Enabled>
+
+          <Specifics>
+            <Cipher>aes-256-ctr</Cipher>
+            <Digest>sha512</Digest>
+            <KeyIterationCount>2000</KeyIterationCount>
+            <Password>IHaveNoIdeaWhatIAmDoing</Password>
+          </Specifics>
+
+        </Filter>
+
+      </Filters>
+
+    </Instance>
+
+  </Instances>
+
+  <FileSystems>
+
+    <FileSystem>
+      <Id>POSIX</Id>
+      <Type>Single</Type>
+      <CacheRoot>/tmp/posix-cache-root</CacheRoot>
+      <FullThreshold>50</FullThreshold>
+      <CleanMaxAccessOffset>30</CleanMaxAccessOffset>
+      <DelayedExpunge>0</DelayedExpunge>
+
+      <Instances>
+        <Instance>POSIXInstance1</Instance>
+      </Instances>
+
+    </FileSystem>
+
+  </FileSystems>
+
+</Configuration>

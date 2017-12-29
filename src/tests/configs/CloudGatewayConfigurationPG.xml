@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+
+  <DB>
+    <Type>PG</Type>
+    <Specifics>
+      <ConnectionString>hostaddr=127.0.0.1 port=5432 user=cloudgw-tests dbname=cloudgw-tests sslmode=disable</ConnectionString>
+    </Specifics>
+  </DB>
+
+</Configuration>

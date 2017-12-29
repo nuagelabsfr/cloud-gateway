@@ -32,15 +32,97 @@
 #include <cloudutils/cloudutils_http.h>
 #include <cloudutils/cloudutils_xml.h>
 
-#define PROJECT_DIR "/opt/cloudGW_build/repo"
-#define TEST_BASE_DIR PROJECT_DIR "/src/tests/"
-#define TEST_BUILD_DIR PROJECT_DIR "/build/"
-#define TEST_STORAGE_FILTER_DIR TEST_BUILD_DIR "/cloudStorageFilters/lib/"
+static inline char const * cg_tests_get_build_dir(void)
+{
+    static char const * const default_dir = ".";
+    char const * result = getenv("CG_TESTS_BUILD_DIR");
 
-#define CONFIG_FILE TEST_BASE_DIR "CloudGatewayConfiguration.xml"
-#define CONFIG_FILE_OSTACK_V2 TEST_BASE_DIR "CloudGatewayConfigurationOpenstackIdentityV2.xml"
-#define CONFIG_FILE_PG TEST_BASE_DIR "configs/CloudGatewayConfigurationPG.xml"
-#define CONFIG_FILE_MONGO TEST_BASE_DIR "configs/CloudGatewayConfigurationMongo.xml"
+    if (result == NULL)
+    {
+        result = default_dir;
+    }
+
+    return result;
+}
+
+static inline char const * cg_tests_get_temp_dir(void)
+{
+    static char const * const default_dir = "/tmp";
+    char const * result = getenv("TMPDIR");
+
+    if (result == NULL)
+    {
+        result = default_dir;
+    }
+
+    return result;
+}
+
+static inline char * cg_tests_get_configs_dir(void)
+{
+    char * result = NULL;
+    char const * build_dir = cg_tests_get_build_dir();
+
+    if (build_dir != NULL)
+    {
+        asprintf(&result, "%s/../src/tests/configs", build_dir);
+    }
+
+    return result;
+}
+
+static inline char * cg_tests_get_config_file(char const * const filename)
+{
+    char * result = NULL;
+    char * configs_dir = cg_tests_get_configs_dir();
+
+    if (configs_dir != NULL)
+    {
+        asprintf(&result, "%s/%s", configs_dir, filename);
+        CGUTILS_FREE(configs_dir);
+    }
+
+    return result;
+}
+
+static inline char * cg_tests_get_temp_file(char const * const filename)
+{
+    char * result = NULL;
+    char const * temp_dir = cg_tests_get_temp_dir();
+
+    if (temp_dir != NULL)
+    {
+        asprintf(&result, "%s/%s", temp_dir, filename);
+    }
+
+    return result;
+}
+
+static inline char * cg_tests_get_storage_filter_dir(void)
+{
+    char * result = NULL;
+    char const * build_dir = cg_tests_get_build_dir();
+
+    if (build_dir != NULL)
+    {
+        asprintf(&result, "%s/%s", build_dir, "cloudStorageFilters/lib/");
+    }
+
+    return result;
+}
+
+static inline char * cg_tests_get_db_backends_dir(void)
+{
+    char * result = NULL;
+    char const * build_dir = cg_tests_get_build_dir();
+
+    if (build_dir != NULL)
+    {
+        asprintf(&result, "%s/%s", build_dir, "cloudDB/lib/");
+    }
+
+    return result;
+}
 
 #define LOG(...)                                                        \
     do                                                                  \

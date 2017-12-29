@@ -9,6 +9,14 @@ addons:
     packages:
       - build-essential bzip2 gzip git libreadline-dev libpq-dev postgresql-server-dev-all libcurl4-openssl-dev libnl-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev libxml2-dev libevent-dev libfuse-dev libjson-c-dev
 
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'CREATE USER "cloudgw-tests";' -U postgres
+  - psql -c "CREATE DATABASE \"cloudgw-tests\" WITH TEMPLATE template0 OWNER=\"cloudgw-tests\" ENCODING='UTF8';" -U postgres
+  - psql -U "cloudgw-tests" "cloudgw-tests" < "src/scripts/create_pg_database.sql"
+
 script:
   ### build libevaio
   - wget https://bitbucket.org/rgacogne/libevaio/get/libevaio_0_4.tar.bz2
@@ -24,4 +32,8 @@ script:
   - cd build
   - CFLAGS="${CFLAGS} -I${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/src/" LDFLAGS="${LDFLAGS} -L${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/build/src/lib/"  cmake ../src
   - make
+  ### prepare test environment:
+  - dd if=/dev/urandom of=/tmp/small.data bs=1M count=1
+  - dd if=/dev/urandom of=/tmp/huge.data bs=1M count=100
+  - LD_LIBRARY_PATH="${TRAVIS_BUILD_DIR}/rgacogne-libevaio-36c968b3ad5f/build/src/lib/" CG_TESTS_LOCAL_PROVIDERS_ONLY=true CTEST_OUTPUT_ON_FAILURE=TRUE make test
 

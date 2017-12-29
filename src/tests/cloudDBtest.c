@@ -1270,21 +1270,26 @@ int main(void)
 
         if (result == 0)
         {
-            static struct
+            struct
             {
                 char const * const backend_name;
-                char const * const backend_file;
-            } const db_backends[] =
+                char * backend_file;
+            } db_backends[] =
                   {
-                      { "PG", CONFIG_FILE_PG },
+                      { "PG", cg_tests_get_config_file("CloudGatewayConfigurationPG.xml") },
                   };
 
-            static size_t const db_backends_count = sizeof db_backends / sizeof *db_backends;
+            size_t const db_backends_count = sizeof db_backends / sizeof *db_backends;
 
             for (size_t idx = 0; idx < db_backends_count; idx++)
             {
+                if (db_backends[idx].backend_file == NULL)
+                {
+                    continue;
+                }
+
                 cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_DIM, CLOUDUTILS_ANSI_COLOR_CYAN, CLOUDUTILS_ANSI_COLOR_BLACK);
-                CGUTILS_DEBUG("Testing backend %s", db_backends[idx].backend_name);
+                CGUTILS_DEBUG("Testing backend %s using configuration file: %s", db_backends[idx].backend_name, db_backends[idx].backend_file);
                 cgutils_set_color(stderr, CLOUDUTILS_ANSI_COLOR_ATTR_RESET, CLOUDUTILS_ANSI_COLOR_WHITE, CLOUDUTILS_ANSI_COLOR_BLACK);
 
                 cgutils_configuration * cg_conf = NULL;
@@ -1295,15 +1300,9 @@ int main(void)
 
                 if (result == 0)
                 {
-                    char * backends_path = NULL;
+                    char * backends_path = cg_tests_get_db_backends_dir();
 
-                    result = cgutils_configuration_get_string(cg_conf,
-                                                              "General/DBBackendsPath",
-                                                              &backends_path);
-
-                    TEST_ASSERT(result == 0, "cgutils_configuration_get_string");
-
-                    if (result == 0)
+                    if (backends_path != NULL)
                     {
                         cgutils_configuration * db_conf = NULL;
 
@@ -1410,6 +1409,8 @@ int main(void)
 
                     cgutils_configuration_free(cg_conf), cg_conf = NULL;
                 }
+
+                CGUTILS_FREE(db_backends[idx].backend_file);
             }
 
             cgutils_event_destroy(event_data);
