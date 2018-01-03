@@ -2112,7 +2112,7 @@ static int test_cgutils_network(void)
 {
     struct addrinfo * addr = NULL;
 
-    int result = cgutils_network_get_addr_storage("::1",
+    int result = cgutils_network_get_addr_storage("127.0.0.1",
                                                   "54242",
                                                   "TCP",
                                                   &addr);
