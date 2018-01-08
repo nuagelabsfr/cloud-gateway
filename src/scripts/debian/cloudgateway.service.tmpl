@@ -9,5 +9,14 @@ User=cloudgw
 ExecStart=@CMAKE_INSTALL_PREFIX@//bin/CloudGatewayStorageManager start
 ExecReload=/bin/kill -HUP $MAINPID
 
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LimitNOFILE=163840
+
 [Install]
 WantedBy=multi-user.target

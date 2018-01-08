@@ -9,5 +9,14 @@ User=cloudgw
 ExecStart=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayMount %i @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml
 ExecStop=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayUnmount @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml %i
 
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX
+LimitNOFILE=163840
+
 [Install]
 WantedBy=multi-user.target
