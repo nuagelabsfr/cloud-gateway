@@ -99,6 +99,12 @@ CloudGatewayAddFilesystem -i <Filesystem Name> \
         <Instance Name>
 ```
 
+3. Create the cache folder
+```
+mkdir -m 0750 <Cache Directory Full Path>
+chown cloudgw:cloudgw <Cache Directory Full Path>
+```
+
 Run CloudGateway without systemd
 --------------------------------
 
