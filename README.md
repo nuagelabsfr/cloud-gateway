@@ -65,9 +65,17 @@ sudo useradd -g cloudgw -m --home-dir /home/cloudgw cloudgw
 sudo chgrp cloudgw /usr/local/etc/CloudGatewayConfiguration.xml
 sudo chmod g+rw /usr/local/etc/CloudGatewayConfiguration.xml
 
-sudo mkdir -p /usr/local/run/cloudgateway
-sudo chgrp cloudgw /usr/local/run/cloudgateway
-sudo chmod g+w /usr/local/run/cloudgateway
+```
+
+If you are not using the systemd unit files:
+```
+sudo mkdir -p /run/cloudgateway
+sudo chown cloudgw:cloudgw /run/cloudgateway
+sudo chmod 0750 /run/cloudgateway
+
+sudo mkdir -p /var/log/cloudgateway
+sudo chown cloudgw:cloudgw /var/log/cloudgateway
+sudo chmod 0750 /var/log/cloudgateway
 ```
 
 Configuration
@@ -128,6 +136,8 @@ Run CloudGateway with systemd
 sudo cp /usr/local/share/cloudgateway/resources/cloudgatewaymount\@.service /etc/systemd/system
 sudo cp /usr/local/share/cloudgateway/resources/cloudgateway.service /etc/systemd/system
 ```
+
+LogsDirectory, LogsDirectoryMode, RuntimeDirectoryPreserve require systemd 235 (for Debian users, it is available in the stretch-backports repository).
 
 2. Reload systemd
 ```

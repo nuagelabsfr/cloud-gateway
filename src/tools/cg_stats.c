@@ -36,8 +36,8 @@
 #include "common.h"
 #include "tools_provider_stats_common.h"
 
-#define CG_STATS_FILE_DEFAULT "/tmp/cgStatsFile.json"
-#define CG_STATS_LOG_FILE_DEFAULT "/tmp/CloudGatewayStats.err"
+#define CG_STATS_FILE_DEFAULT "/run/cloudgateway/cgStatsFile.json"
+#define CG_STATS_LOG_FILE_DEFAULT "/run/cloudgateway/CloudGatewayStats.err"
 
 #define CG_STATS_KEEP_DEFAULT (60)
 #define CG_STATS_DELAY_DEFAULT (1)

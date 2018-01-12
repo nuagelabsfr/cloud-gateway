@@ -33,7 +33,7 @@ function fail()
 {
     echo "Failed: $1";
     fusermount -u ${MOUNT_POINT}
-    kill -USR1 `cat /tmp/CloudGatewayStorageManager.pid`
+    kill -USR1 `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
     exit 1;
 }
 
@@ -143,7 +143,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_FIRST_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while the first
 # instance is having issues. We don't let enough time to the monitoring process
@@ -175,7 +175,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_SECOND_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while the second
 # instance is having issues. We don't let enough time to the monitoring process
@@ -207,7 +207,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_ALL_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while all instances
 # are down. Obviously this should fail. We don't let enough time to the monitoring process
@@ -234,7 +234,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_FIRST_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while the first
 # instance is having issues. This time we wait while the monitoring process
@@ -265,7 +265,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_SECOND_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while the second
 # instance is having issues. This time we wait while the monitoring process
@@ -296,7 +296,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_ALL_DOWN_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # Ok, now we try to access the file (after cleaning the cache) while all instances
 # are down. Obviously this should fail. This time we wait while the monitoring process
@@ -327,7 +327,7 @@ fusermount -u /mnt/fuse
 
 rm -f "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
 ln -s "${CG_STORAGE_MANAGER_VALID_CONF}" "${CG_STORAGE_MANAGER_SYMLINK_CONF}"
-kill -HUP `cat /tmp/CloudGatewayStorageManager.pid`
+kill -HUP `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 # We need to launch a working Storage Manager, otherwise the
 # test file will remain
@@ -338,7 +338,7 @@ if [ $? -ne 0 ]; then
     fail "Unmount failure.";
 fi
 
-kill -USR1 `cat /tmp/CloudGatewayStorageManager.pid`
+kill -USR1 `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 if [ $? -ne 0 ]; then
     fail "cgStorageManager stop failure.";

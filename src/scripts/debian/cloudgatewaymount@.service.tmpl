@@ -9,5 +9,11 @@ User=cloudgw
 ExecStart=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayMount %i @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml
 ExecStop=@CMAKE_INSTALL_PREFIX@/bin/CloudGatewayUnmount @CMAKE_INSTALL_PREFIX@//etc/CloudGatewayConfiguration.xml %i
 
+LogsDirectory=cloudgateway
+LogsDirectoryMode=0750
+RuntimeDirectory=cloudgateway
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=restart
+
 [Install]
 WantedBy=multi-user.target
