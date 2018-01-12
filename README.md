@@ -101,7 +101,7 @@ CloudGatewayAddFilesystem -i <Filesystem Name> \
 
 3. Create the cache folder
 ```
-mkdir 0750 <Cache Directory Full Path>
+mkdir -m 0750 <Cache Directory Full Path>
 chown cloudgw:cloudgw <Cache Directory Full Path>
 ```
 
