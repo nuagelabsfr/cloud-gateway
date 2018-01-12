@@ -131,7 +131,7 @@ sudo cp /usr/local/share/cloudgateway/resources/cloudgatewaymount\@.service /etc
 sudo cp /usr/local/share/cloudgateway/resources/cloudgateway.service /etc/systemd/system
 ```
 
-LogsDirectory, LogsDirectoryMode, RuntimeDirectoryPreserve requires systemd 235 (for Debian users, it is available in the stretch-backports repository).
+LogsDirectory, LogsDirectoryMode, RuntimeDirectoryPreserve require systemd 235 (for Debian users, it is available in the stretch-backports repository).
 
 2. Reload systemd
 ```
