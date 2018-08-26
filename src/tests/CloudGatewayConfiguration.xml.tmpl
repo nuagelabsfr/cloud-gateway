@@ -6,12 +6,12 @@
     <FiltersPath>@CMAKE_INSTALL_PREFIX@/lib/</FiltersPath>
     <DBBackendsPath>@CMAKE_INSTALL_PREFIX@/lib/</DBBackendsPath>
     <ResourcesPath>@CMAKE_INSTALL_PREFIX@/share/cloudgateway/resources/</ResourcesPath>
-    <CommunicationSocket>@CMAKE_INSTALL_PREFIX@/run/cloudgateway/CloudGatewayStorageManager.sock</CommunicationSocket>
-    <PidFile>@CMAKE_INSTALL_PREFIX@/run/cloudgateway/CloudGatewayStorageManager.pid</PidFile>
-    <LogFile>/tmp/CloudGatewayStorageManager.err</LogFile>
+    <CommunicationSocket>/run/cloudgateway/CloudGatewayStorageManager.sock</CommunicationSocket>
+    <PidFile>/run/cloudgateway/CloudGatewayStorageManager.pid</PidFile>
+    <LogFile>/var/log/cloudgateway/CloudGatewayStorageManager.err</LogFile>
+    <StatsJSONFile>/run/cloudgateway/cgStatsFile.json</StatsJSONFile>
     <MonitorInformationsPath>/cgStorageManagerMonitor.shared</MonitorInformationsPath>
     <Daemonize>true</Daemonize>
-    <StatsJSONFile>/tmp/cgStatsFile.json</StatsJSONFile>
   </General>
 
   <Monitor>

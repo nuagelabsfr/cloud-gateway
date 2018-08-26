@@ -26,7 +26,7 @@ function fail()
 {
     echo "Failed: $1";
     fusermount -u ${MOUNT_POINT}
-    kill -USR1 `cat /tmp/CloudGatewayStorageManager.pid`
+    kill -USR1 `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
     exit 1;
 }
 
@@ -548,7 +548,7 @@ fi
 
 sleep 10
 
-kill -USR1 `cat /tmp/CloudGatewayStorageManager.pid`
+kill -USR1 `cat /run/cloudgateway/CloudGatewayStorageManager.pid`
 
 if [ $? -ne 0 ]; then
     fail "cgStorageManager stop failure.";

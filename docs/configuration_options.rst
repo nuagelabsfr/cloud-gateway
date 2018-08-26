@@ -73,7 +73,7 @@ Configuration/General/LogFile
 
 -  Required: false
 
--  *Example: /tmp/CloudGatewayStorageManager.err*
+-  *Example: /var/log/cloudgateway/CloudGatewayStorageManager.err*
 
 Path to the file where the Cloud Gateway Storage Manager process will
 write its log messages when needed. Creation and write access to this
@@ -97,9 +97,9 @@ Configuration/General/StatsJSONFile
 
 -  Required: false
 
--  Default: /tmp/cgStats.json
+-  Default: /run/cloudgateway/cgStats.json
 
--  *Example: /tmp/cgStats.json*
+-  *Example: /run/cloudgateway/cgStats.json*
 
 Path to the JSON file that the Stats process will write statistics
 informations to.
