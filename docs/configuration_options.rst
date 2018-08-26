@@ -914,6 +914,19 @@ Configuration/Instances/Instance/Specifics/AuthenticationEndpoint
 
 The Authentication Endpoint provided by your Openstack provider.
 
+Configuration/Instances/Instance/Specifics/AuthenticationFormat
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Context: An instance using the Openstack Provider
+
+-  Default: XML
+
+-  Possible Values: XML, JSON
+
+-  *Example: JSON*
+
+The Authentication Format to use for your Openstack provider.
+
 Configuration/Instances/Instance/Specifics/Container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

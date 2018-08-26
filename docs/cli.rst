@@ -185,6 +185,7 @@ file.
             -m --authentication-max-life-time        Authentication max lifetime for an Openstack token
             -R --authentication-token-recent-delay   An Openstack authentication error with a token older than
                                                      this delay will trigger a re-authentication
+            -F --authentication-format               Authentication format (optional for Openstack)
             -k --allow-insecure                      Allow insecure (invalid certificate) communication
     Please look at the product documentation for more information.
 
@@ -298,6 +299,12 @@ Parameters
    re-authentication attempt.
 
    See `Configuration/Instances/Instance/Specifics/AuthenticationTokenRecentDelay <configuration_options.html#configuration-instances-instance-specifics-authenticationtokenrecentdelay>`_.
+
+-  **Authentication Format (-F
+   --authentication-format)** the authentication format used for
+   Openstack.
+
+   See `Configuration/Instances/Instance/Specifics/AuthenticationFormat <configuration_options.html#configuration-instances-instance-specifics-authenticationformat>`_.
 
 -  **Allow insecure connection (-k --allow-insecure)** allows the cloud
    provider to present an invalid certificate. This means that the
