@@ -1813,10 +1813,12 @@ static int test_http_response_cb(cgutils_http_data * const data,
     uint16_t const status = cgutils_http_response_get_status(response);
 
     TEST_ASSERT(status == 200 ||
+                status == 301 ||
                 status == 302 ||
                 status == 413, "test http response callback : status code");
 
     if (status != 200 &&
+        status != 301 &&
         status != 302 &&
         status != 413)
     {
