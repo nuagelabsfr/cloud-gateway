@@ -41,6 +41,7 @@
    -r --preferred-region Preferred region to use with Openstack, if any
    -m --authentication-max-life-time Authentication max lifetime for an Openstack token
    -R --authentication-token-recent-delay (Openstack)
+   -F --authentication-format (Openstack)
    -k --allow-insecure Allow insecure (invalid certificate) communication
 
    -f --file Configuration File to update
@@ -102,7 +103,7 @@ int main (int argc, char **argv)
 
     while ((result = getopt_long(argc,
                                  argv,
-                                 "+n:P:a:s:e:g:b:S:i:u:p:t:T:I:A:c:k:r:m:R:f:",
+                                 "+n:P:a:s:e:g:b:S:i:u:p:t:T:I:A:c:k:r:m:R:F:f:",
                                  long_options,
                                  &indexptr)) != -1)
     {
