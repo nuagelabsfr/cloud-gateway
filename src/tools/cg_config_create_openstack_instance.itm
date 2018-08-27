@@ -9,3 +9,4 @@ ITEM("container", container, 'c', "Container", false, "Container (required for O
 ITEM("preferred-region", preferred_region, 'r', "PreferredRegion", false, "Preferred region to use with Openstack, if any")
 ITEM("authentication-max-life-time", authentication_max_life_time, 'm', "AuthenticationMaxLifetime", false, "Authentication max lifetime for an Openstack token")
 ITEM("authentication-token-recent-delay", authentication_token_recent_delay, 'R', "AuthenticationTokenRecentDelay", false, "An Openstack authentication error with a token older than this delay will trigger a re-authentication")
+ITEM("authentication-format", authentication_format, 'F', "AuthenticationFormat", false, "Authentication format for Openstack")
