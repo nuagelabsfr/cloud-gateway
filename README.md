@@ -124,7 +124,7 @@ sudo -u cloudgw /usr/local/bin/CloudGatewayStorageManager start
 2. Mount the Filesystem
 ```
 sudo mkdir <Mount Point>
-sudo chown clougw <Mount Point>
+sudo chown cloudgw <Mount Point>
 sudo -u cloudgw /usr/local/bin/CloudGatewayMount <Filesystem Name> /usr/local/etc/CloudGatewayConfiguration.xml &
 ```
 
