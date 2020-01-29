@@ -206,6 +206,21 @@ static void cgfuse_reply_create_cb(void * const req,
                         &fi);
 }
 
+static void cgfuse_reply_mknod_cb(void * const req,
+                                 cgfs_inode * const inode,
+                                 cgfs_file_handler * const file_handler)
+{
+    CGUTILS_ASSERT(req != NULL);
+
+    cgfuse_reply_entry(req, inode);
+
+    if (COMPILER_LIKELY(file_handler != NULL)) {
+        cgfs_async_file_handler_release(cgfs_get_data(),
+                                        cgfs_inode_get_number(inode),
+                                        file_handler);
+    }
+}
+
 static void cgfuse_reply_err(fuse_req_t const req,
                              int const status)
 {
@@ -732,6 +747,51 @@ static void cgfuse_create(fuse_req_t const req,
                                    &cgfuse_reply_create_cb,
                                    &cgfuse_err_cb,
                                    req);
+    }
+    else
+    {
+        cgfuse_reply_err(req, EINVAL);
+    }
+}
+
+static void cgfuse_mknod(fuse_req_t const req,
+                         fuse_ino_t const parent,
+                         char const * const name,
+                         mode_t const mode,
+                         dev_t const rdev)
+{
+    /*
+      Create a regular file (character device, block device, fifo and socket node are not supported).
+    */
+    CGUTILS_ASSERT(req != NULL);
+    CGUTILS_ASSERT(parent > 0);
+    CGUTILS_ASSERT(name != NULL);
+    struct fuse_ctx const * context = fuse_req_ctx(req);
+    (void) rdev;
+
+    if (COMPILER_LIKELY(context != NULL))
+    {
+        if (COMPILER_LIKELY(mode & S_IFREG)) {
+            int const flags = O_RDONLY;
+
+            uid_t const uid = context->uid;
+            uid_t const gid = context->gid;
+            mode_t const mask = context->umask;
+
+            cgfs_async_create_and_open(cgfs_get_data(),
+                                       parent,
+                                       name,
+                                       uid,
+                                       gid,
+                                       mode & ~mask,
+                                       flags,
+                                       &cgfuse_reply_mknod_cb,
+                                       &cgfuse_err_cb,
+                                       req);
+        }
+        else {
+            cgfuse_reply_err(req, ENOSYS);
+        }
     }
     else
     {
@@ -1321,6 +1381,8 @@ static struct fuse_lowlevel_ops const cgfuse_operations =
     .readlink     = cgfuse_readlink,
     .symlink      = cgfuse_symlink,
 
+    .mknod        = cgfuse_mknod,
+
 #if 0
 #if FUSE_VERSION >= 29
     .write_buf    = cgfuse_write_buf,
@@ -1344,7 +1406,6 @@ static struct fuse_lowlevel_ops const cgfuse_operations =
     // .access (useless with default permissions flag)
     // .ioctl
     // .poll
-    // .mknod (not supported)
     // .bmap (only for block device)
     // .retrieve_reply (only used with the kernel cache API)
 };
