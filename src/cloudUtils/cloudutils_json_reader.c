@@ -276,7 +276,7 @@ int cgutils_json_reader_get_all(cgutils_json_reader * const reader,
             if (json_object_get_type(list) == json_type_array)
             {
                 size_t count = 0;
-                int const len = json_object_array_length(list);
+                size_t const len = json_object_array_length(list);
 
                 if (len > 0)
                 {
@@ -286,11 +286,11 @@ int cgutils_json_reader_get_all(cgutils_json_reader * const reader,
                     {
                         for(size_t idx = 0;
                             result == 0 &&
-                                idx < (size_t) len;
+                                idx < len;
                             idx++)
                         {
                             struct json_object * obj = json_object_array_get_idx(list,
-                                                                                 (int) idx);
+                                                                                 idx);
 
                             if (obj != NULL)
                             {
