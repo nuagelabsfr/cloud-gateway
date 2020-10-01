@@ -16,9 +16,9 @@ Prerequisites
 Install prerequisites:
 ```
 sudo apt-get install build-essential bzip2 gzip git libreadline-dev libpq-dev postgresql-server-dev-all libcurl4-openssl-dev libnl-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev libxml2-dev libevent-dev libfuse-dev libjson-c-dev cmake libz-dev libssl-dev
-wget https://bitbucket.org/rgacogne/libevaio/get/libevaio_0_4.tar.bz2
-tar xjf libevaio_0_4.tar.bz2
-cd rgacogne-libevaio-36c968b3ad5f
+wget https://github.com/rgacogne/libevaio/archive/libevaio_0_4.tar.gz
+tar xf libevaio_0_4.tar.gz
+cd libevaio-libevaio_0_4
 mkdir build && cd build && cmake ../ && make
 sudo make install
 ```
