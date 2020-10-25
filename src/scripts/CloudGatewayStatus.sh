@@ -14,24 +14,24 @@ fi
 
 function usage
 {
-    print_error "Usage: $0 [-v[v]]"
+    print_error "Usage: $0 [-v[v]] [-r]"
     exit 22
 }
 
-if [ $ARGC -gt 1 ]; then
-    usage
-fi
-
-if [ $ARGC -eq 1 -a "$1" = "-vv" ]; then
-    readonly VERBOSE=2
-elif [ $ARGC -eq 1 -a "$1" = "-v" ]; then
-    readonly VERBOSE=1
-elif [ $ARGC -eq 1 ]; then
-    usage
-else
-    readonly VERBOSE=0
-fi
-
+VERBOSE=0
+RAW=0
+while true ; do
+    if [ $# -eq 0 ]; then
+        break;
+    fi
+    case "$1" in
+        -v) VERBOSE=1; shift ;;
+        -vv) VERBOSE=2; shift ;;
+	-r) RAW=1; shift ;;
+        --) shift ; break ;;
+        *) usage;
+    esac
+done
 
 # Get dirty / deleting files count from DB
 nb_dirty_files=0
@@ -111,8 +111,17 @@ WHERE status = 2;" ${DISPLAY_PSQL_TABLE})
             full_path="entries.name";
         fi
 
+        time_column="TO_CHAR(TO_TIMESTAMP(inodes.mtime), 'YYYY/MM/DD HH24:MI:SS') as mtime"
+        if [ ${RAW} -eq 1 ]; then
+            time_column="inodes.mtime"
+        fi
+        size_column="pg_size_pretty(inodes.size) AS size"
+        if [ ${RAW} -eq 1 ]; then
+            size_column="inodes.size AS size"
+        fi
+
         result=$( get_psql_values "
-select filesystems.fs_name as FS, inodes.inode_number, instance_name, inodes.mtime, pg_size_pretty(inodes.size) AS size,
+select filesystems.fs_name as FS, inodes.inode_number, instance_name, ${time_column}, ${size_column},
 CASE
   WHEN status=1 THEN
     CASE WHEN uploading='t' THEN 'uploading'

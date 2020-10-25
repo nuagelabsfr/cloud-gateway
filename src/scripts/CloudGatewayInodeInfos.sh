@@ -14,27 +14,35 @@ fi
 
 function usage
 {
-    print_error "Usage: $0 <inode number> <fs name> [-v]"
+    print_error "Usage: $0 <inode number> <fs name> [-v] [-r]"
     exit 22
 }
 
-if [ $ARGC -lt 2 -o $ARGC -gt 3 ]; then
+if [ $ARGC -lt 2 ]; then
     usage
 fi
 
 readonly inode_number=$1
 [[ ${inode_number} =~ ^[0-9]+$ ]] || usage
+shift
 
-readonly fs_name=$2
+readonly fs_name=$1
 [[ -n ${fs_name} ]] || usage
+shift
 
-if [ $ARGC -eq 2 ]; then
-    readonly VERBOSE=0
-elif [ $ARGC -eq 3 -a "$3" = "-v" ]; then
-    readonly VERBOSE=1
-elif [ $ARGC -eq 3 ]; then
-    usage
-fi
+VERBOSE=0
+RAW=0
+while true ; do
+    if [ $# -eq 0 ]; then
+        break;
+    fi
+    case "$1" in
+        -v) VERBOSE=1; shift ;;
+        -r) RAW=1; shift ;;
+        --) shift ; break ;;
+        *) usage;
+    esac
+done
 
 if [ ${VERBOSE} -gt 0 ]; then
     full_path="
@@ -57,8 +65,17 @@ else
     full_path="entries.name";
 fi
 
+time_column="TO_CHAR(TO_TIMESTAMP(inodes.mtime), 'YYYY/MM/DD HH24:MI:SS') as mtime"
+if [ ${RAW} -eq 1 ]; then
+    time_column="inodes.mtime"
+fi
+size_column="pg_size_pretty(inodes.size) AS size"
+if [ ${RAW} -eq 1 ]; then
+    size_column="inodes.size AS size"
+fi
+
 request="
-select filesystems.fs_name as FS, instance_name, inodes.mtime,
+select filesystems.fs_name as FS, instance_name, $time_column,
 CASE
   WHEN status=0 THEN
      'synced'
@@ -72,7 +89,7 @@ CASE
     END
 END
  AS status,
-pg_size_pretty(inodes.size) AS file_size,
+$size_column,
 $full_path,
 ii.id_in_instance
 
