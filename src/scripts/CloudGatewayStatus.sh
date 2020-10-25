@@ -141,7 +141,7 @@ INNER JOIN instances ON (ii.instance_id = instances.instance_id)
 INNER JOIN inodes ON (inodes.inode_number = iil.inode_number AND inodes.fs_id = iil.fs_id)
 INNER JOIN entries ON (entries.inode_number = iil.inode_number AND entries.fs_id = iil.fs_id)
 INNER JOIN filesystems ON (entries.fs_id = filesystems.fs_id)
-WHERE status != 0;" ${DISPLAY_PSQL_TABLE})
+WHERE status != 0 ORDER BY mtime;" ${DISPLAY_PSQL_TABLE})
         returned_value=$?
         echo "${result}" >&2
     fi
