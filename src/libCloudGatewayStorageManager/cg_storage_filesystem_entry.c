@@ -312,7 +312,7 @@ int cg_storage_filesystem_entry_expunge_inode_from_cache_if_all_instances_valid(
                     else
                     {
                         /* Cache is not expungeable, probably modified under our feet. */
-                        CGUTILS_WARN("Expunge prevented because cache entry has been modified (%"PRIu64") on fs %s",
+                        CGUTILS_WARN("Expunge prevented: cache file has a different size or has a more recent modification time than the file in DB (%"PRIu64") on fs %s",
                                      inode->inode_number,
                                      fs->name);
 
